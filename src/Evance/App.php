@@ -1,0 +1,407 @@
+<?php
+
+namespace Evance;
+
+use Evance;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Firebase\JWT\JWT;
+
+class App{
+
+    const VERSION = "0.0.1-alpha";
+	const OAUTH2_TOKEN_URI = 'https://{account}/oauth/token';
+	const OAUTH2_REVOKE_URI = 'https://{account}/oauth/revoke';
+	const OAUTH2_AUTH_URL = 'https://{account}/oauth/authorize';
+	const API_BASE_PATH = 'https://{account}/api';
+    const USER_AGENT_SUFFIX = "evance-api-php-client/";
+	
+	private $config;
+	private $scopes = [];
+	private $auth;
+	private $accessToken;
+	private $http;
+	
+	public function __construct(array $config=array())
+    {
+		$this->config = new Evance\ConfigManager([
+			'account' => '',
+            'app_name' => '',
+            'approval_prompt' => 'auto',
+			'client_id' => '',
+			'client_secret' => '',
+			'redirect_uri' => '',
+			'state' => '',
+			'private_key' => null,
+			'algorithm' => 'HS256'
+		]);
+		$this->config->merge($config);
+	}
+	
+	public function addScope($scope)
+    {
+		// TODO: we need to define what our scopes are
+        $this->scopes[] = $scope;
+        return $this;
+	}
+
+	public function authenticate($params)
+    {
+	    if(!$this->verifyAuthorizeCallback($params)){
+	        return false;
+        }
+        return $this->fetchAccessTokenWithAuthCode($params['code']);
+    }
+
+    public function authorize(ClientInterface $http = null)
+    {
+        $credentials = null;
+        $token = null;
+        $scopes = null;
+        if (is_null($http)) {
+            $http = $this->getHttpClient();
+        }
+
+        if ($token = $this->getAccessToken()) {
+            $scopes = $this->prepareScopes();
+            // add refresh subscriber to request a new token
+            if ($this->hasAccessTokenExpired() && isset($token['refresh_token'])) {
+                // @ todo: replace with a more elegant solution
+                throw new \Exception('Access token has expired');
+            }
+        }
+        return $http;
+    }
+	
+	public function createOAuth2Service()
+    {
+		$auth = new Evance\Auth\OAuth2([
+			'client_id' => $this->getClientId(),
+			'client_secret' => $this->getClientSecret(),
+			'authorize_uri' => $this->getAuthorizationUri(),
+			'token_uri' => $this->getTokenUri(),
+			'redirect_uri' => $this->getRedirectUri(),
+			'issuer' => $this->getClientId(),
+			'private_key' => $this->getConfig('private_key'),
+			'algorithm' => $this->getConfig('algorithm')
+		]);
+		return $auth;
+	}
+	
+	public function createAuthorizeUrl()
+    {
+		$params = array_filter([
+			'approval_prompt' => $this->getConfig('approval_prompt'),
+			'response_type' => 'code',
+			'scope' => $this->prepareScopes(),
+			'state' => $this->getConfig('state')
+		]);
+		$auth = $this->getOAuth2Service();
+		return (string) $auth->createAuthorizeUri($params);
+	}
+
+    protected function createDefaultHttpClient()
+    {
+        $options = [
+            'exceptions' => false
+        ];
+        $options['base_uri'] = $this->getBaseUri();
+        return new Client($options);
+    }
+
+	public function enforceApprovalPrompt()
+    {
+		$this->setConfig('approval_prompt', 'force');
+		return $this;
+	}
+
+    public function execute(RequestInterface $request)
+    {
+        $request = $request->withHeader(
+            'User-Agent',
+            $this->getConfig('app_name')
+            . " " . self::USER_AGENT_SUFFIX
+            . $this->getVersion()
+        );
+
+        $headers = [
+            'Cache-Control' => 'no-store',
+            'Authorization' => 'Bearer ' . $this->getAccessToken()['access_token']
+        ];
+
+        $client = new Client(['verify' => false]);
+        $response = $client->send($request, [
+            'headers' => $headers
+        ]);
+        $body = (string) $response->getBody();
+        $json = json_decode($body, true);
+
+        return $json;
+
+        /*
+        var_dump($json);
+        exit;
+
+        // call the authorize method
+        // this is where most of the grunt work is done
+        $http = $this->authorize();
+
+        return Google_Http_REST::execute($http, $request, $expectedClass, $this->config['retry']);
+        */
+    }
+	
+	public function fetchAccessTokenWithAuthCode($code)
+    {
+		if(strlen($code) == 0){
+			throw new \InvalidArgumentException("Invalid authorization code");
+		}
+		$auth = $this->getOAuth2Service();
+		$response = $auth->fetchAccessTokenWithAuthCode($code);
+        if ($response && isset($response['access_token'])) {
+            $response['created'] = time();
+            $this->setAccessToken($response);
+        }
+        return $response;
+	}
+
+	public function fetchAccessTokenWithJwt()
+    {
+        $auth = $this->getOAuth2Service();
+        $response = $auth->fetchAccessTokenWithJwt();
+        if ($response && isset($response['access_token'])) {
+            $response['created'] = time();
+            $this->setAccessToken($response);
+        }
+        return $response;
+    }
+
+	public function getAccessToken()
+    {
+	    return $this->accessToken;
+    }
+	
+	public function getAccount()
+    {
+		return $this->getConfig('account');
+	}
+	
+	public function getAuthorizationUri()
+    {
+		return $this->parseUri(self::OAUTH2_AUTH_URL);
+	}
+
+	public function getBaseUri()
+    {
+        return $this->getResourceUri('');
+    }
+	
+	public function getClientId()
+    {
+		return $this->getConfig('client_id');
+	}
+	
+	public function getClientSecret()
+    {
+		return $this->getConfig('client_secret');
+	}
+	
+	public function getConfig($property, $default=null)
+    {
+		return $this->config->get($property, $default);
+	}
+
+    public function getHttpClient()
+    {
+        if (is_null($this->http)) {
+            $this->http = $this->createDefaultHttpClient();
+        }
+
+        return $this->http;
+    }
+
+
+    public function getJwt(){
+
+	    $algorithm = $this->getSigningAlgorithm();
+	    $privateKey = $this->getSigningKey();
+
+	    // @todo: scopes
+	    $payload = json_encode([
+	        'aud' => $this->getTokenUri(),
+            'exp' => strtotime('now + 1 hour'),
+            'iat' => time(),
+            'scope' => '', // @todo scopes have not been defined yet
+            'sub' => $this->getClientId(),
+            'iss' => $this->getClientId()
+        ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+        return JWT::encode($payload, $privateKey, $algorithm);
+    }
+
+
+	public function getOAuth2Service()
+    {
+		if(!isset($this->auth)){
+			$this->auth = $this->createOAuth2Service();
+		}
+		return $this->auth;
+	}
+	
+	public function getRedirectUri()
+    {
+		return $this->getConfig('redirect_uri');
+	}
+
+    public function getRefreshToken()
+    {
+        if (isset($this->token['refresh_token'])){
+            return $this->token['refresh_token'];
+        }
+    }
+
+	public function getResourceUri($relativeUrl)
+    {
+	    $uri = self::API_BASE_PATH . $relativeUrl;
+	    return $this->parseUri($uri);
+    }
+	
+	public function getSigningAlgorithm()
+    {
+		return $this->getConfig('algorithm');
+	}
+	
+	public function getSigningKey()
+    {
+		return $this->getConfig('private_key');
+	}
+	
+	public function getTokenUri()
+    {
+		return $this->parseUri(self::OAUTH2_TOKEN_URI);
+	}
+
+	public function getVersion()
+    {
+	    return self::VERSION;
+    }
+
+    public function hasAccessTokenExpired()
+    {
+        if (!$this->token) {
+            return true;
+        }
+        $created = 0;
+        if (isset($this->token['created'])) {
+            $created = $this->token['created'];
+        } elseif (isset($this->token['id_token'])) {
+            // check the ID token for "iat"
+            $idToken = $this->token['id_token'];
+            if (substr_count($idToken, '.') == 2) {
+                $parts = explode('.', $idToken);
+                $payload = json_decode(base64_decode($parts[1]), true);
+                if ($payload && isset($payload['iat'])) {
+                    $created = $payload['iat'];
+                }
+            }
+        }
+        // If the token is set to expire in the next 30 seconds.
+        $expired = ($created + ($this->token['expires_in'] - 30)) < time();
+        return $expired;
+    }
+	
+	public function loadAuthConfig($path)
+    {
+		if(!file_exists($path)){
+			throw new \RuntimeException("JSON Config file not found: {$path}");
+		}
+		// read the config file as JSON and as an associative array
+		// this is the native format for the config manager
+		$contents = file_get_contents($path);
+		$json = json_decode($contents, true);
+		if(is_null($json)){
+			throw new \RuntimeException("Unexpected JSON Format in {$path}");
+		}
+		$this->config->merge($json);
+		return $this;
+	}
+	
+	protected function parseUri($uri)
+    {
+		$account = $this->getConfig('account');
+		if(empty($account)){
+			throw \Exception('Missing account property in config');
+		}
+		$uri = str_replace('{account}', $account, $uri);
+		return $uri;
+	}
+	
+	public function prepareScopes()
+    {
+		if(!count($this->scopes)){
+			return null;
+		}
+		$scopes = implode(' ', $this->requestedScopes);
+		return $scopes;
+	}
+
+    public function setAccessToken($token)
+    {
+        if ($token == null) {
+            throw new \InvalidArgumentException('invalid json token');
+        }
+        if (!isset($token['access_token'])) {
+            throw new \InvalidArgumentException("Invalid token format");
+        }
+        $this->accessToken = $token;
+    }
+	
+	public function setAccount($account)
+    {
+		$this->setConfig('account', $account);
+		return $this;
+	}
+	
+	public function setClientId($clientId)
+    {
+		$this->setConfig('client_id', $clientId);
+		return $this;
+	}
+	
+	public function setConfig($property, $value)
+    {
+		$this->config->set($property, $value);
+		return $this;
+	}
+	
+	public function setRedirectUri($uri)
+    {
+		$this->setConfig('redirect_uri', $uri);
+		return $this;
+	}
+	
+	public function setState($state)
+    {
+		$this->setConfig('state', $state);
+		return $this;
+	}
+	
+	public function verifyAuthorizeCallback($params)
+    {
+		if(!isset($params['code'])){
+			throw new \Exception('Missing code query parameter');
+		}
+		// @ todo: verify state id is correct
+		if(!isset($params['state'])){
+			throw new \Exception('Missing state query parameter');
+		}
+        if(!isset($params['account'])){
+            throw new \Exception('Missing account query parameter');
+        }
+		if(!$this->getAccount() && isset($params['account'])){
+			$this->setAccount($params['account']);
+		}
+		return true;
+	}
+	
+}
