@@ -1,5 +1,5 @@
 {
-  "name": "evance/apiclient",
+  "name": "evanceit/evance-api-php-client",
   "type": "library",
   "description": "Client library for Evance APIs",
   "keywords": ["evance"],
