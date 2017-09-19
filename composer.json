@@ -1,4 +1,10 @@
 {
+  "name": "evance/apiclient",
+  "type": "library",
+  "description": "Client library for Evance APIs",
+  "keywords": ["evance"],
+  "homepage": "https://github.com/evanceit/evance-api-php-client",
+  "license": "MIT",
   "require": {
     "php": ">=5.6",
     "guzzlehttp/guzzle": "^6.2",
