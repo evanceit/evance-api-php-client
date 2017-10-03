@@ -11,9 +11,9 @@ use Firebase\JWT\JWT;
 class App{
 
     const VERSION = "0.0.1-alpha";
-	const OAUTH2_TOKEN_URI = 'https://{account}/oauth/token';
-	const OAUTH2_REVOKE_URI = 'https://{account}/oauth/revoke';
-	const OAUTH2_AUTH_URL = 'https://{account}/oauth/authorize';
+	const OAUTH2_TOKEN_URI = 'https://{account}/admin/oauth/token';
+	const OAUTH2_REVOKE_URI = 'https://{account}/admin/oauth/revoke';
+	const OAUTH2_AUTH_URL = 'https://{account}/admin/oauth/authorize';
 	const API_BASE_PATH = 'https://{account}/api';
     const USER_AGENT_SUFFIX = "evance-api-php-client/";
 	
@@ -38,14 +38,21 @@ class App{
 		]);
 		$this->config->merge($config);
 	}
-	
+
+    /**
+     * @param $scope
+     * @return $this
+     */
 	public function addScope($scope)
     {
-		// TODO: we need to define what our scopes are
         $this->scopes[] = $scope;
         return $this;
 	}
 
+    /**
+     * @param $params
+     * @return bool|mixed
+     */
 	public function authenticate($params)
     {
 	    if(!$this->verifyAuthorizeCallback($params)){
@@ -54,6 +61,11 @@ class App{
         return $this->fetchAccessTokenWithAuthCode($params['code']);
     }
 
+    /**
+     * @param ClientInterface|null $http
+     * @return Client|ClientInterface
+     * @throws \Exception
+     */
     public function authorize(ClientInterface $http = null)
     {
         $credentials = null;
@@ -73,7 +85,10 @@ class App{
         }
         return $http;
     }
-	
+
+    /**
+     * @return Auth\OAuth2
+     */
 	public function createOAuth2Service()
     {
 		$auth = new Evance\Auth\OAuth2([
@@ -88,7 +103,10 @@ class App{
 		]);
 		return $auth;
 	}
-	
+
+    /**
+     * @return string
+     */
 	public function createAuthorizeUrl()
     {
 		$params = array_filter([
@@ -101,6 +119,9 @@ class App{
 		return (string) $auth->createAuthorizeUri($params);
 	}
 
+    /**
+     * @return Client
+     */
     protected function createDefaultHttpClient()
     {
         $options = [
@@ -110,12 +131,19 @@ class App{
         return new Client($options);
     }
 
+    /**
+     * @return $this
+     */
 	public function enforceApprovalPrompt()
     {
 		$this->setConfig('approval_prompt', 'force');
 		return $this;
 	}
 
+    /**
+     * @param RequestInterface $request
+     * @return mixed
+     */
     public function execute(RequestInterface $request)
     {
         $request = $request->withHeader(
@@ -138,19 +166,12 @@ class App{
         $json = json_decode($body, true);
 
         return $json;
-
-        /*
-        var_dump($json);
-        exit;
-
-        // call the authorize method
-        // this is where most of the grunt work is done
-        $http = $this->authorize();
-
-        return Google_Http_REST::execute($http, $request, $expectedClass, $this->config['retry']);
-        */
     }
-	
+
+    /**
+     * @param $code
+     * @return mixed
+     */
 	public function fetchAccessTokenWithAuthCode($code)
     {
 		if(strlen($code) == 0){
@@ -165,6 +186,9 @@ class App{
         return $response;
 	}
 
+    /**
+     * @return mixed
+     */
 	public function fetchAccessTokenWithJwt()
     {
         $auth = $this->getOAuth2Service();
@@ -176,41 +200,67 @@ class App{
         return $response;
     }
 
+    /**
+     * @return mixed
+     */
 	public function getAccessToken()
     {
 	    return $this->accessToken;
     }
-	
+
+    /**
+     * @return null
+     */
 	public function getAccount()
     {
 		return $this->getConfig('account');
 	}
-	
+
+    /**
+     * @return mixed
+     */
 	public function getAuthorizationUri()
     {
 		return $this->parseUri(self::OAUTH2_AUTH_URL);
 	}
 
+    /**
+     * @return mixed
+     */
 	public function getBaseUri()
     {
         return $this->getResourceUri('');
     }
-	
+
+    /**
+     * @return null
+     */
 	public function getClientId()
     {
 		return $this->getConfig('client_id');
 	}
-	
+
+    /**
+     * @return null
+     */
 	public function getClientSecret()
     {
 		return $this->getConfig('client_secret');
 	}
-	
+
+    /**
+     * @param $property
+     * @param null $default
+     * @return null
+     */
 	public function getConfig($property, $default=null)
     {
 		return $this->config->get($property, $default);
 	}
 
+    /**
+     * @return Client
+     */
     public function getHttpClient()
     {
         if (is_null($this->http)) {
@@ -220,7 +270,9 @@ class App{
         return $this->http;
     }
 
-
+    /**
+     * @return string
+     */
     public function getJwt(){
 
 	    $algorithm = $this->getSigningAlgorithm();
@@ -239,7 +291,9 @@ class App{
         return JWT::encode($payload, $privateKey, $algorithm);
     }
 
-
+    /**
+     * @return Auth\OAuth2
+     */
 	public function getOAuth2Service()
     {
 		if(!isset($this->auth)){
@@ -247,12 +301,18 @@ class App{
 		}
 		return $this->auth;
 	}
-	
+
+    /**
+     * @return null
+     */
 	public function getRedirectUri()
     {
 		return $this->getConfig('redirect_uri');
 	}
 
+    /**
+     * @return mixed
+     */
     public function getRefreshToken()
     {
         if (isset($this->token['refresh_token'])){
@@ -260,32 +320,51 @@ class App{
         }
     }
 
+    /**
+     * @param $relativeUrl
+     * @return mixed
+     */
 	public function getResourceUri($relativeUrl)
     {
 	    $uri = self::API_BASE_PATH . $relativeUrl;
 	    return $this->parseUri($uri);
     }
-	
+
+    /**
+     * @return null
+     */
 	public function getSigningAlgorithm()
     {
 		return $this->getConfig('algorithm');
 	}
-	
+
+    /**
+     * @return null
+     */
 	public function getSigningKey()
     {
 		return $this->getConfig('private_key');
 	}
-	
+
+    /**
+     * @return mixed
+     */
 	public function getTokenUri()
     {
 		return $this->parseUri(self::OAUTH2_TOKEN_URI);
 	}
 
+    /**
+     * @return string
+     */
 	public function getVersion()
     {
 	    return self::VERSION;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAccessTokenExpired()
     {
         if (!$this->token) {
@@ -309,7 +388,11 @@ class App{
         $expired = ($created + ($this->token['expires_in'] - 30)) < time();
         return $expired;
     }
-	
+
+    /**
+     * @param $path
+     * @return $this
+     */
 	public function loadAuthConfig($path)
     {
 		if(!file_exists($path)){
@@ -325,7 +408,11 @@ class App{
 		$this->config->merge($json);
 		return $this;
 	}
-	
+
+    /**
+     * @param $uri
+     * @return mixed
+     */
 	protected function parseUri($uri)
     {
 		$account = $this->getConfig('account');
@@ -335,16 +422,22 @@ class App{
 		$uri = str_replace('{account}', $account, $uri);
 		return $uri;
 	}
-	
+
+    /**
+     * @return null|string
+     */
 	public function prepareScopes()
     {
 		if(!count($this->scopes)){
 			return null;
 		}
-		$scopes = implode(' ', $this->requestedScopes);
-		return $scopes;
+		$scopes = implode(' ', $this->scopes);
+		return trim($scopes);
 	}
 
+    /**
+     * @param $token
+     */
     public function setAccessToken($token)
     {
         if ($token == null) {
@@ -355,37 +448,63 @@ class App{
         }
         $this->accessToken = $token;
     }
-	
+
+    /**
+     * @param $account
+     * @return $this
+     */
 	public function setAccount($account)
     {
 		$this->setConfig('account', $account);
 		return $this;
 	}
-	
+
+    /**
+     * @param $clientId
+     * @return $this
+     */
 	public function setClientId($clientId)
     {
 		$this->setConfig('client_id', $clientId);
 		return $this;
 	}
-	
+
+    /**
+     * @param $property
+     * @param $value
+     * @return $this
+     */
 	public function setConfig($property, $value)
     {
 		$this->config->set($property, $value);
 		return $this;
 	}
-	
+
+    /**
+     * @param $uri
+     * @return $this
+     */
 	public function setRedirectUri($uri)
     {
 		$this->setConfig('redirect_uri', $uri);
 		return $this;
 	}
-	
+
+    /**
+     * @param $state
+     * @return $this
+     */
 	public function setState($state)
     {
 		$this->setConfig('state', $state);
 		return $this;
 	}
-	
+
+    /**
+     * @param $params
+     * @return bool
+     * @throws \Exception
+     */
 	public function verifyAuthorizeCallback($params)
     {
 		if(!isset($params['code'])){
