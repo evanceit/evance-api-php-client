@@ -8,7 +8,8 @@ use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Firebase\JWT\JWT;
 
-class App{
+class App
+{
 
     const VERSION = "0.0.1-alpha";
 	const OAUTH2_TOKEN_URI = 'https://{account}/admin/oauth/token';
@@ -296,7 +297,7 @@ class App{
      */
 	public function getOAuth2Service()
     {
-		if(!isset($this->auth)){
+		if (!isset($this->auth)) {
 			$this->auth = $this->createOAuth2Service();
 		}
 		return $this->auth;
