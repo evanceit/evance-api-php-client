@@ -3,9 +3,9 @@
 namespace Evance\Resource;
 
 use Evance\App;
-use Evance\Resource;
+use Evance\AbstractResource;
 
-class Welcome extends Resource
+class Welcome extends AbstractResource
 {
     public function __construct(App $client)
     {

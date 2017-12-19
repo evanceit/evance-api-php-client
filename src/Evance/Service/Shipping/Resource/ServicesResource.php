@@ -2,7 +2,7 @@
 
 namespace Evance\Service\Shipping\Resource;
 
-use Evance\Resource;
+use Evance\AbstractResource;
 use Webmozart\Assert\Assert;
 
 /**
@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
  * If you do not wish to use our
  * @package Evance\Service\Shipping\Resource
  */
-class Services extends Resource
+class ServicesResource extends AbstractResource
 {
 
     /**

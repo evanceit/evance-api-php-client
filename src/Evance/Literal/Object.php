@@ -17,7 +17,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
      * Initiate a basic object using a properties array.
      * @param array|\stdClass|\Evance\Literal\Object $properties
      */
-    public function __construct($properties = array())
+    public function __construct($properties = [])
     {
         $this->setProperties($properties);
     }
@@ -116,7 +116,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
      */
     public function resetProperties()
     {
-        $this->properties = array();
+        $this->properties = [];
         return $this;
     }
 

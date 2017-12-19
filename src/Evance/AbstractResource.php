@@ -6,17 +6,25 @@ use GuzzleHttp\Psr7\Request;
 use Webmozart\Assert\Assert;
 
 /**
- * Class Resource
+ * A Resource Class is designed to be a literal representation of an API endpoint.
+ * It does pretty much no mutations on data expected by, or returned by, an endpoint
+ * other than that data is represented as an associate array in both directions.
+ *
+ * This literal representation is done on purpose - it allows developers to
+ * completely ignore our Service classes in favour of implementing their own classes.
+ * Consequently, with the exception of requiring our PHP client, the Resource classes
+ * are lightweight and "standalone".
+ *
  * @package Evance
  */
-class Resource
+abstract class AbstractResource
 {
     /** @var App */
     private $client;
 
     /**
      * Resource constructor.
-     * @param App $client
+     * @param App $client The Evance PHP Client to connect to the Resource.
      */
     public function __construct(App $client)
     {
@@ -44,5 +52,23 @@ class Resource
         );
         return $this->client->execute($request);
     }
+
+    /**
+     * @return App
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    abstract public function add($properties);
+
+    abstract public function delete($id);
+
+    abstract public function get($id);
+
+    abstract public function update($id, $properties);
+
+
 
 }
