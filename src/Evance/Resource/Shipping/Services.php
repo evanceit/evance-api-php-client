@@ -1,6 +1,6 @@
 <?php
 
-namespace Evance\Service\Shipping\Resource;
+namespace Evance\Resource\Shipping;
 
 use Evance\AbstractResource;
 use Webmozart\Assert\Assert;
@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
  * If you do not wish to use our
  * @package Evance\Service\Shipping\Resource
  */
-class ServicesResource extends AbstractResource
+class Services extends AbstractResource
 {
 
     /**

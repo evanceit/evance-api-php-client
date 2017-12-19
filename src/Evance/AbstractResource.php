@@ -61,13 +61,42 @@ abstract class AbstractResource
         return $this->client;
     }
 
-    abstract public function add($properties);
+    /**
+     * @param $properties
+     * @return mixed
+     */
+    public function add($properties)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
 
-    abstract public function delete($id);
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
 
-    abstract public function get($id);
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
 
-    abstract public function update($id, $properties);
+    /**
+     * @param $id
+     * @param $properties
+     * @return mixed
+     */
+    public function update($id, $properties)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
 
 
 

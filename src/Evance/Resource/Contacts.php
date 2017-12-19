@@ -2,43 +2,72 @@
 
 namespace Evance\Resource;
 
+use Evance\AbstractResource;
 use Evance\App;
-use Evance\Resource;
+use Webmozart\Assert\Assert;
 
-class Contacts extends Resource
+class Contacts extends AbstractResource
 {
     public function __construct(App $client)
     {
         parent::__construct($client);
     }
 
-    public function getContactById($id=null)
+    public function add($properties)
     {
-        $json = $this->call('GET', "/contacts/$id.json");
+        $json = $this->call('POST', "/contacts.json", $properties);
         return $json;
     }
 
-    public function addContact($contactObj)
+    public function delete($id)
     {
-        $json = $this->call('POST', "/contacts.json", $contactObj);
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        $json = $this->call('DELETE', "/contacts/{$id}.json");
         return $json;
+    }
+
+    public function get($id)
+    {
+        $json = $this->call('GET', "/contacts/{$id}.json");
+        return $json;
+    }
+
+    public function search($query)
+    {
+        $json = $this->call('GET', "/contacts/search.json?q={$query}");
+        return $json;
+    }
+
+    public function update($id, $properties)
+    {
+        $json = $this->call('PUT', "/contacts/{$id}.json", $properties);
+        return $json;
+    }
+
+
+
+    public function getContactById($id)
+    {
+        return $this->get($id);
+    }
+
+    public function addContact($properties)
+    {
+        return $this->add($properties);
     }
 
     public function deleteContactById($id)
     {
-        $json = $this->call('DELETE', "/contacts/$id.json");
-        return $json;
+        return $this->delete($id);
     }
 
-    public function updateContactById($id, $contactObj)
+    public function updateContactById($id, $properties)
     {
-        $json = $this->call('PUT', "/contacts/$id.json", $contactObj);
-        return $json;
+        return $this->update($id, $properties);
     }
 
     public function searchContacts($query)
     {
-        $json = $this->call('GET', "/contacts/search.json?q=$query");
-        return $json;
+        return $this->search($query);
     }
 }

@@ -5,7 +5,7 @@ namespace Evance\Service\Shipping;
 use Evance\AbstractService;
 use Evance\App;
 use Evance\Literal\Object;
-use Evance\Service\Shipping\Resource\ServicesResource;
+use Evance\Resource\Shipping\Services as ServicesResource;
 
 /**
  * Class Service
