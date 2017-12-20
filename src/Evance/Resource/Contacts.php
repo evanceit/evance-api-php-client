@@ -13,61 +13,59 @@ class Contacts extends AbstractResource
         parent::__construct($client);
     }
 
+    /**
+     * Create a new Contact for the App.
+     * @param $properties
+     * @return mixed
+     */
     public function add($properties)
     {
-        $json = $this->call('POST', "/contacts.json", $properties);
-        return $json;
+        Assert::isArray($properties, __METHOD__ . ' expects $properties to be supplied as an array');
+        return $this->call('POST', "/contacts.json", $properties);
     }
 
+    /**
+     * Delete a Contact based on ID for the App.
+     * @param $id
+     * @return mixed
+     */
     public function delete($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
-        $json = $this->call('DELETE', "/contacts/{$id}.json");
-        return $json;
+        return $this->call('DELETE', "/contacts/{$id}.json");
     }
 
+    /**
+     * Get a Contact for the App.
+     * @param $id
+     * @return mixed
+     */
     public function get($id)
     {
-        $json = $this->call('GET', "/contacts/{$id}.json");
-        return $json;
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        return $this->call('GET', "/contacts/{$id}.json");
     }
 
+    /**
+     * Search for Contact(s) based on certain parameters within a query string.
+     * @param $query
+     * @return mixed
+     */
     public function search($query)
     {
-        $json = $this->call('GET', "/contacts/search.json?q={$query}");
-        return $json;
+        return $this->call('GET', "/contacts/search.json?q={$query}");
     }
 
+    /**
+     * Update a Contact for the App with the new properties provided.
+     * @param $id
+     * @param $properties
+     * @return mixed
+     */
     public function update($id, $properties)
     {
-        $json = $this->call('PUT', "/contacts/{$id}.json", $properties);
-        return $json;
-    }
-
-
-
-    public function getContactById($id)
-    {
-        return $this->get($id);
-    }
-
-    public function addContact($properties)
-    {
-        return $this->add($properties);
-    }
-
-    public function deleteContactById($id)
-    {
-        return $this->delete($id);
-    }
-
-    public function updateContactById($id, $properties)
-    {
-        return $this->update($id, $properties);
-    }
-
-    public function searchContacts($query)
-    {
-        return $this->search($query);
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        Assert::isArray($properties, __METHOD__ . ' expects $properties to be supplied as an array');
+        return $this->call('PUT', "/contacts/{$id}.json", $properties);
     }
 }
