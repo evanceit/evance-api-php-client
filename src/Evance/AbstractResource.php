@@ -19,14 +19,14 @@ use Webmozart\Assert\Assert;
  */
 abstract class AbstractResource
 {
-    /** @var App */
+    /** @var ApiClient */
     private $client;
 
     /**
      * Resource constructor.
-     * @param App $client The Evance PHP Client to connect to the Resource.
+     * @param ApiClient $client The Evance PHP Client to connect to the Resource.
      */
-    public function __construct(App $client)
+    public function __construct(ApiClient $client)
     {
         $this->client = $client;
     }
@@ -54,7 +54,7 @@ abstract class AbstractResource
     }
 
     /**
-     * @return App
+     * @return ApiClient
      */
     public function getClient()
     {

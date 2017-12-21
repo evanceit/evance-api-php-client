@@ -41,8 +41,8 @@ an access token from Evance.
 
 1. Set the path to your credentials as below:
     ```php
-    use Evance\App;
-    $client = new App();
+    use Evance\ApiClient;
+    $client = new ApiClient();
     $client->loadAuthConfig('/path/to/client-credentials.json');
     ```
 
@@ -86,8 +86,8 @@ does not have a refresh token so a new access token must be obtained every time 
 
 1. Set the path to your credentials as below:
     ```php
-    use Evance\App;
-    $client = new App();
+    use Evance\ApiClient;
+    $client = new ApiClient();
     $client->loadAuthConfig('/path/to/server-credentials.json');
     ```
 
@@ -99,7 +99,7 @@ will grant the access token full access to the scopes granted to your App.
     
 1. Now you can obtain the access token from Evance. 
     ```php
-    $token = $app->fetchAccessTokenWithJwt();
+    $token = $client->fetchAccessTokenWithJwt();
     ```
 
 

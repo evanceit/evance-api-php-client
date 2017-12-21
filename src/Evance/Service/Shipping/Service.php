@@ -3,7 +3,7 @@
 namespace Evance\Service\Shipping;
 
 use Evance\AbstractService;
-use Evance\App;
+use Evance\ApiClient;
 use Evance\Literal\Object;
 use Evance\Resource\Shipping\Services as ServicesResource;
 
@@ -29,10 +29,10 @@ class Service extends AbstractService
 
     /**
      * Service constructor.
-     * @param App $client
+     * @param ApiClient $client
      * @param array $properties
      */
-    public function __construct(App $client, $properties = [])
+    public function __construct(ApiClient $client, $properties = [])
     {
         $properties = (new Object([
             'id' => null,

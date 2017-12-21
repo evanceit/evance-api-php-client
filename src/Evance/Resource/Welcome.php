@@ -2,12 +2,12 @@
 
 namespace Evance\Resource;
 
-use Evance\App;
+use Evance\ApiClient;
 use Evance\AbstractResource;
 
 class Welcome extends AbstractResource
 {
-    public function __construct(App $client)
+    public function __construct(ApiClient $client)
     {
         parent::__construct($client);
     }

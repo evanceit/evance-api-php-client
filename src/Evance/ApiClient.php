@@ -3,12 +3,12 @@
 namespace Evance;
 
 use Evance;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Firebase\JWT\JWT;
 
-class App
+class ApiClient
 {
 
     const VERSION = "0.0.1-alpha";
@@ -24,7 +24,7 @@ class App
 	private $accessToken;
 	private $http;
 	
-	public function __construct(array $config=array())
+	public function __construct(array $config = [])
     {
 		$this->config = new Evance\ConfigManager([
 			'account' => '',
@@ -129,7 +129,7 @@ class App
             'exceptions' => false
         ];
         $options['base_uri'] = $this->getBaseUri();
-        return new Client($options);
+        return new HttpClient($options);
     }
 
     /**
@@ -159,7 +159,7 @@ class App
             'Authorization' => 'Bearer ' . $this->getAccessToken()['access_token']
         ];
 
-        $client = new Client(['verify' => false]);
+        $client = new HttpClient(['verify' => false]);
         $response = $client->send($request, [
             'headers' => $headers
         ]);

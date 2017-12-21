@@ -8,7 +8,7 @@ use Webmozart\Assert\Assert;
 class AbstractService extends Object
 {
 
-    /** @var App */
+    /** @var ApiClient */
     private $client;
 
     /** @var string */
@@ -22,12 +22,12 @@ class AbstractService extends Object
 
     /**
      * AbstractService constructor.
-     * @param App $client
+     * @param ApiClient $client
      * @param AbstractResource $resource
      * @param string $serviceName
      * @param array $properties
      */
-    public function __construct(App $client, AbstractResource $resource, $serviceName, $properties = [])
+    public function __construct(ApiClient $client, AbstractResource $resource, $serviceName, $properties = [])
     {
         $this->client = $client;
         $this->resource = $resource;
@@ -96,7 +96,7 @@ class AbstractService extends Object
 
     /**
      * Returns the PHP App Client for the Service.
-     * @return App
+     * @return ApiClient
      */
     public function getClient()
     {

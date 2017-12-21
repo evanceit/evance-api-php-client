@@ -3,12 +3,12 @@
 namespace Evance\Resource;
 
 use Evance\AbstractResource;
-use Evance\App;
+use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
 class Contacts extends AbstractResource
 {
-    public function __construct(App $client)
+    public function __construct(ApiClient $client)
     {
         parent::__construct($client);
     }
