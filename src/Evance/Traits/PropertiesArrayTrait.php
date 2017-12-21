@@ -14,7 +14,7 @@ trait PropertiesArrayTrait
     /**
      * @var array The property storage array where all the goodies are stored.
      */
-	protected $properties = array();
+	protected $properties = [];
 
     /**
      * Magic method gets the value of a property.

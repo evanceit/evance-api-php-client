@@ -9,8 +9,6 @@ namespace Evance\Traits;
  */
 trait PropertiesIteratorTrait
 {
-    use PropertiesArrayTrait;
-
     /**
      * Returns the current element in the internal properties array.
      * @return mixed

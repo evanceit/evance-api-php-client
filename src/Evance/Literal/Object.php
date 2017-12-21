@@ -2,6 +2,7 @@
 
 namespace Evance\Literal;
 
+use Evance\Traits\PropertiesArrayTrait;
 use Evance\Traits\PropertiesIteratorTrait;
 
 /**
@@ -11,6 +12,7 @@ use Evance\Traits\PropertiesIteratorTrait;
 class Object extends AbstractLiteral implements \Iterator, \Countable
 {
 
+    use PropertiesArrayTrait;
     use PropertiesIteratorTrait;
 
     /**
