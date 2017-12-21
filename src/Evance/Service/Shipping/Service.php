@@ -27,6 +27,11 @@ use Evance\Resource\Shipping\Services as ServicesResource;
 class Service extends AbstractService
 {
 
+    /**
+     * Service constructor.
+     * @param App $client
+     * @param array $properties
+     */
     public function __construct(App $client, $properties = [])
     {
         $properties = (new Object([
@@ -38,5 +43,14 @@ class Service extends AbstractService
             'created' => null
         ]))->merge($properties);
         parent::__construct($client, new ServicesResource($client), 'shippingService',  $properties);
+    }
+
+    /**
+     * Alias of getIsActive()
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->getIsActive();
     }
 }

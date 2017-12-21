@@ -86,7 +86,7 @@ class PropertyMap
                     $reflectedMethod->getNumberOfParameters() > 0 &&
                     $reflectedMethod->getNumberOfRequiredParameters() <= 1
                 ) {
-                    $reflectedMethod->invoke($object, [$value]);
+                    $reflectedMethod->invoke($object, $value);
                     return $this;
                 }
             }

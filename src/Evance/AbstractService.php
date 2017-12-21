@@ -57,6 +57,23 @@ class AbstractService extends Object
     }
 
     /**
+     * Overwrites the object's delete method with a delete method that attempts to delete the entire object.
+     * Technically we should not be deleting properties from the service object so this should be ok.
+     * @return bool
+     */
+    public function delete()
+    {
+        try {
+            $this->resource->delete($this->getId());
+        } catch (\Exception $e) {
+            // failure to delete should always result in an exception
+            // todo error handling
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @param $id
      * @return bool
      */

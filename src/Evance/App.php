@@ -284,7 +284,7 @@ class App
 	        'aud' => $this->getTokenUri(),
             'exp' => strtotime('now + 1 hour'),
             'iat' => time(),
-            'scope' => '', // @todo scopes have not been defined yet
+            'scope' => $this->prepareScopes(),
             'sub' => $this->getClientId(),
             'iss' => $this->getClientId()
         ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
