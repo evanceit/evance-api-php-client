@@ -129,7 +129,7 @@ class PropertyMap
         if (is_array($object)) {
             $object[$property] = $value;
         }
-        throw new \RuntimeException(__METHOD__ . " can't tell how to assign '{$property}' to it's object.");
+        throw new \RuntimeException(__METHOD__ . " can't tell how to assign '{$property}' to its object.");
     }
 
     /**
@@ -236,7 +236,7 @@ class PropertyMap
         if (is_array($object)) {
             return $object[$property];
         }
-        throw new \RuntimeException(__METHOD__ . " can't tell how to set '{$property}' from it's object.");
+        throw new \RuntimeException(__METHOD__ . " can't tell how to get '{$property}' from its object.");
     }
 
     /**
