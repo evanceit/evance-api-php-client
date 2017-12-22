@@ -42,6 +42,16 @@ class ObjectMap extends Object
     }
 
     /**
+     * Alias of assignRight()
+     * @see assignRight
+     * @return ObjectMap
+     */
+    public function assignLeftToRight()
+    {
+        return $this->assignRight();
+    }
+
+    /**
      * @return ObjectMap
      */
     public function assignRight()
@@ -51,6 +61,16 @@ class ObjectMap extends Object
             $propertyMap->assignRight();
         }
         return $this;
+    }
+
+    /**
+     * Alias of assignleft()
+     * @see assignLeft
+     * @return ObjectMap
+     */
+    public function assignRightToLeft()
+    {
+        return $this->assignLeft();
     }
 
 }

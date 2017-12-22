@@ -54,6 +54,16 @@ class PropertyMap
     }
 
     /**
+     * Alias of assignRight()
+     * @see assignRight
+     * @return PropertyMap
+     */
+    public function assignLeftToRight()
+    {
+        return $this->assignRight();
+    }
+
+    /**
      * Gets the left side value and assigns it to the right Object's property.
      * @return PropertyMap
      */
@@ -64,6 +74,16 @@ class PropertyMap
         }
         $this->assignValue($this->getRightObject(), $this->getRightProperty(), $this->getLeftValue());
         return $this;
+    }
+
+    /**
+     * Alias of assignleft()
+     * @see assignLeft
+     * @return PropertyMap
+     */
+    public function assignRightToLeft()
+    {
+        return $this->assignLeft();
     }
 
     /**
