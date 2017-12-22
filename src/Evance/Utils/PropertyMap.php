@@ -11,6 +11,7 @@ use Evance\Literal\Object;
  * The property map is designed to be used in conjunction with an ObjectMap.
  *
  * @package Evance\Utils
+ * @see https://www.evance.me/help/api/client-libraries/php/mapper-utilities
  */
 class PropertyMap
 {

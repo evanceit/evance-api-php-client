@@ -7,13 +7,17 @@ use Evance\Literal\Object;
 /**
  * Class ObjectMap
  *
- *
+ * Maps an object/array to another object/array by add()ing one or more PropertyMap
  *
  * @package Evance\Utils
+ * @see https://www.evance.me/help/api/client-libraries/php/mapper-utilities
  */
 class ObjectMap extends Object
 {
 
+    /**
+     * ObjectMap constructor.
+     */
     public function __construct()
     {
         parent::__construct();
