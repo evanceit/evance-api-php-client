@@ -28,10 +28,11 @@ class Contact extends AbstractService
     public function __construct(ApiClient $client, $properties = [])
     {
         $properties = (new Object([
-            'id' => null,
-            'firstname' => '',
-            'surname' => '',
-            'type' => 'user'
+            'id'            => null,
+            'firstname'     => '',
+            'surname'       => '',
+            'type'          => 'user',
+            'username'      => ''
         ]))->merge($properties);
         parent::__construct($client, new ContactsResource($client), 'contact',  $properties);
     }
