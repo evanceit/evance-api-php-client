@@ -11,6 +11,7 @@ use Evance\Literal\Object;
  * The property map is designed to be used in conjunction with an ObjectMap.
  *
  * @package Evance\Utils
+ * @see https://www.evance.me/help/api/client-libraries/php/mapper-utilities
  */
 class PropertyMap
 {
@@ -54,6 +55,16 @@ class PropertyMap
     }
 
     /**
+     * Alias of assignRight()
+     * @see assignRight
+     * @return PropertyMap
+     */
+    public function assignLeftToRight()
+    {
+        return $this->assignRight();
+    }
+
+    /**
      * Gets the left side value and assigns it to the right Object's property.
      * @return PropertyMap
      */
@@ -64,6 +75,16 @@ class PropertyMap
         }
         $this->assignValue($this->getRightObject(), $this->getRightProperty(), $this->getLeftValue());
         return $this;
+    }
+
+    /**
+     * Alias of assignleft()
+     * @see assignLeft
+     * @return PropertyMap
+     */
+    public function assignRightToLeft()
+    {
+        return $this->assignLeft();
     }
 
     /**
@@ -109,7 +130,7 @@ class PropertyMap
         if (is_array($object)) {
             $object[$property] = $value;
         }
-        throw new \RuntimeException(__METHOD__ . " can't tell how to assign '{$property}' to it's object.");
+        throw new \RuntimeException(__METHOD__ . " can't tell how to assign '{$property}' to its object.");
     }
 
     /**
@@ -216,7 +237,7 @@ class PropertyMap
         if (is_array($object)) {
             return $object[$property];
         }
-        throw new \RuntimeException(__METHOD__ . " can't tell how to set '{$property}' from it's object.");
+        throw new \RuntimeException(__METHOD__ . " can't tell how to get '{$property}' from its object.");
     }
 
     /**
