@@ -143,9 +143,10 @@ class ApiClient
 
     /**
      * @param RequestInterface $request
+     * @param array|null $params
      * @return mixed
      */
-    public function execute(RequestInterface $request)
+    public function execute(RequestInterface $request, $params)
     {
         $request = $request->withHeader(
             'User-Agent',
@@ -158,10 +159,11 @@ class ApiClient
             'Cache-Control' => 'no-store',
             'Authorization' => 'Bearer ' . $this->getAccessToken()['access_token']
         ];
-
+        
         $client = new HttpClient(['verify' => false]);
         $response = $client->send($request, [
-            'headers' => $headers
+            'headers' => $headers,
+            'query' => $params
         ]);
         $body = (string) $response->getBody();
         $json = json_decode($body, true);

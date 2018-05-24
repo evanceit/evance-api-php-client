@@ -3,6 +3,7 @@
 namespace Evance;
 
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\ClientException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -34,13 +35,15 @@ abstract class AbstractResource
     /**
      * @param string $httpVerb  A GET, POST, PUT or DELETE Http verb.
      * @param string $url The Url of the API endpoint.
+     * @param array|null $body Optional array of body data to send to the API endpoint.
      * @param array|null $params Optional array of parameters to send to the API endpoint.
      * @return mixed
      */
-    public function call($httpVerb, $url, $params = null)
+    public function call($httpVerb, $url, $body = null, $params = null)
     {
         Assert::oneOf($httpVerb, ['GET', 'POST', 'PUT', 'DELETE'], __METHOD__ . " encountered an unexpected HTTP verb '{$httpVerb}'");
         Assert::nullOrIsArray($params, __METHOD__ . ' expects call parameters to be null or an array');
+        Assert::nullOrIsArray($body, __METHOD__ . ' expects call body to be null or an array');
         Assert::string($url, __METHOD__ . ' expects the $url to be provided as a string');
 
         $uri = $this->client->getResourceUri($url);
@@ -48,9 +51,15 @@ abstract class AbstractResource
             $httpVerb,
             $uri,
             ['content-type' => 'application/json'],
-            $params ? json_encode($params) : ''
+            $body ? json_encode($body) : ''
         );
-        return $this->client->execute($request);
+        // We had to catch and re throw the client exception to get the full error message
+        // otherwise it was being truncated and the Evance save error message was lost.
+        try {
+            return $this->client->execute($request, $params);
+        } catch (ClientException $e) {
+            throw new ClientException($e->getResponse()->getBody()->getContents(), $request);
+        }
     }
 
     /**
