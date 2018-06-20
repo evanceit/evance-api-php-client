@@ -14,31 +14,6 @@ class Products extends AbstractResource
     }
 
     /**
-     * Create a new Product for the App.
-     * @param $product
-     * @return mixed
-     */
-    public function add($product)
-    {
-        Assert::isArray($product, __METHOD__ . ' expects $product to be supplied as an array');
-        Assert::keyExists($product, "product",  __METHOD__ . ' expects $product to contain key of "product"' .
-            ' with value of json object');
-        return $this->call('POST', "/products.json", $product);
-    }
-
-    /**
-     * Delete a Product based on ID for the App.
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id)
-    {
-        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
-        return $this->call('DELETE', "/products/{$id}.json");
-    }
-
-    /**
-     * Get a Product for the App.
      * @param $id
      * @return array
      */
@@ -49,7 +24,6 @@ class Products extends AbstractResource
     }
 
     /**
-     * Search for Product(s)
      * @param $query
      * @return mixed
      */
@@ -58,11 +32,22 @@ class Products extends AbstractResource
         // Ensure there's no whitespace sent in the query string
         $query = preg_replace( '/\s+/', '', $query );
         Assert::isArray($query, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
-        return $this->call('GET', "/products/search.json", [], $query);
+        return $this->call('GET', "/products.json", [], $query);
     }
 
     /**
-     * Update a Pruducts for the App with the new properties provided.
+     * @param $product
+     * @return mixed
+     */
+    public function add($product)
+    {
+        Assert::isArray($product, __METHOD__ . ' expects $product to be supplied as an array');
+        Assert::keyExists($product, "product",  __METHOD__ . ' expects $product to contain key of "product"' .
+            ' with value of object or array:');
+        return $this->call('POST', "/products.json", $product);
+    }
+
+    /**
      * @param $id
      * @param $product
      * @return mixed
@@ -74,5 +59,15 @@ class Products extends AbstractResource
         Assert::keyExists($product, "product",  __METHOD__ . ' expects $product to contain key of "product"' .
             ' with value of json object');
         return $this->call('PUT', "/products/{$id}.json", $product);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        return $this->call('DELETE', "/products/{$id}.json");
     }
 }
