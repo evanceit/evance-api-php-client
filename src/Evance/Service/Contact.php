@@ -14,7 +14,7 @@ use Evance\Resource\Contacts as ContactsResource;
  *
  * @method setFirstname(string $firstname)
  * @method setLastname(string $lastname)
- * @method setType(string $type) // Contatc Type e.g. user, branch, hq...
+ * @method setType(string $type) // Contact Type e.g. user, branch, hq...
  *
  * @package Evance\Service\Contact
  */
