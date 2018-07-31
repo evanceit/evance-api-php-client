@@ -19,6 +19,13 @@ class ProductTranslations extends AbstractResource
         return $this->call('GET', "/products/{$productId}/translations.json");
     }
 
+    public function getLocales($productId)
+    {
+        Assert::integerish($productId, __METHOD__ . ' expects a $productId as an integer');
+        return $this->call('GET', "/products/{$productId}/locales.json");
+    }
+
+
     public function add($productId, $translations)
     {
         Assert::integerish($productId, __METHOD__ . ' expects an $producId as an integer');

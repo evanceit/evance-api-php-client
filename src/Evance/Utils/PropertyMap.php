@@ -45,10 +45,12 @@ class PropertyMap
      * Gets the right side value and assigns it to the left object's property.
      * @return PropertyMap
      */
-    public function assignLeft()
+    public function assignLeft($strict = true)
     {
-        if (!$this->hasMatchingProperties()) {
+        if ($strict && !$this->hasMatchingProperties()) {
             return $this;
+        } elseif (!$this->hasRightProperty()) {
+            return $this; 
         }
         $this->assignValue($this->getLeftObject(), $this->getLeftProperty(), $this->getRightValue());
         return $this;
@@ -59,18 +61,20 @@ class PropertyMap
      * @see assignRight
      * @return PropertyMap
      */
-    public function assignLeftToRight()
+    public function assignLeftToRight($strict = true)
     {
-        return $this->assignRight();
+        return $this->assignRight($strict);
     }
 
     /**
      * Gets the left side value and assigns it to the right Object's property.
      * @return PropertyMap
      */
-    public function assignRight()
+    public function assignRight($strict = true)
     {
-        if (!$this->hasRightProperty() || !$this->hasLeftProperty()) {
+        if ($strict && !$this->hasRightProperty() || !$this->hasLeftProperty()) {
+            return $this;
+        } elseif (!$this->hasLeftProperty()) {
             return $this;
         }
         $this->assignValue($this->getRightObject(), $this->getRightProperty(), $this->getLeftValue());
@@ -82,9 +86,9 @@ class PropertyMap
      * @see assignLeft
      * @return PropertyMap
      */
-    public function assignRightToLeft()
+    public function assignRightToLeft($strict = true)
     {
-        return $this->assignLeft();
+        return $this->assignLeft($strict);
     }
 
     /**

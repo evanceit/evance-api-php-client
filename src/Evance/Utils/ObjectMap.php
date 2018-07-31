@@ -36,11 +36,11 @@ class ObjectMap extends Object
     /**
      * @return ObjectMap
      */
-    public function assignLeft()
+    public function assignLeft($strict = true)
     {
         foreach ($this->getProperties() as $key => $propertyMap) {
             /** @var PropertyMap  $propertyMap */
-            $propertyMap->assignLeft();
+            $propertyMap->assignLeft($strict);
         }
         return $this;
     }
@@ -50,19 +50,19 @@ class ObjectMap extends Object
      * @see assignRight
      * @return ObjectMap
      */
-    public function assignLeftToRight()
+    public function assignLeftToRight($strict = true)
     {
-        return $this->assignRight();
+        return $this->assignRight($strict);
     }
 
     /**
      * @return ObjectMap
      */
-    public function assignRight()
+    public function assignRight($strict = true)
     {
         foreach ($this->getProperties() as $key => $propertyMap) {
             /** @var PropertyMap  $propertyMap */
-            $propertyMap->assignRight();
+            $propertyMap->assignRight($strict);
         }
         return $this;
     }
@@ -72,9 +72,9 @@ class ObjectMap extends Object
      * @see assignLeft
      * @return ObjectMap
      */
-    public function assignRightToLeft()
+    public function assignRightToLeft($strict = true)
     {
-        return $this->assignLeft();
+        return $this->assignLeft($strict);
     }
 
 }
