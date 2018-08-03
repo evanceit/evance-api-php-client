@@ -30,7 +30,7 @@ class ProductTranslations extends AbstractResource
     {
         Assert::integerish($productId, __METHOD__ . ' expects an $producId as an integer');
         Assert::isArray($translations, __METHOD__ . ' expects $translations to be supplied as an array');
-        Assert::keyExists($translations, "translations",  __METHOD__ . ' expects $translations to contain key of "translations"' .
+        Assert::keyExists($translations, "translation",  __METHOD__ . ' expects $translations to contain key of "translation"' .
             ' with value of object or array');
         return $this->call('POST', "/products/{$productId}/translations.json", $translations);
     }
@@ -47,7 +47,7 @@ class ProductTranslations extends AbstractResource
         Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
         Assert::integerish($translationsId, __METHOD__ . ' expects an $translationsId as an integer');
         Assert::isArray($translations, __METHOD__ . ' expects $translations to be supplied as an array');
-        Assert::keyExists($translations, "translations",  __METHOD__ . ' expects $translations to contain key of "translations"' .
+        Assert::keyExists($translations, "translation",  __METHOD__ . ' expects $translations to contain key of "translation"' .
             ' with value of object or array');
         return $this->call('PUT', "/products/{$productId}/translations/{$translationsId}.json", $translations);
     }
