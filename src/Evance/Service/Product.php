@@ -4,7 +4,7 @@ namespace Evance\Service;
 
 use Evance\AbstractService;
 use Evance\ApiClient;
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 use Evance\Resource\Products as ProductsResource;
 use Evance\Resource\Products;
 
@@ -22,8 +22,8 @@ class Product extends AbstractService
      */
     public function __construct(ApiClient $client, $properties = [])
     {
-        // First a new Evance\Literal\Object is created with a 
-        $properties = (new Object([
+        // First a new Evance\Literal\EvObject is created with a
+        $properties = (new EvObject([
             'isStocked'     => true,
             'firstname'     => '',
             'surname'       => '',

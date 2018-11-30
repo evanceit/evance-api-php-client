@@ -2,21 +2,21 @@
 
 namespace Evance\Utils;
 
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 
 /**
- * Class ObjectMap
+ * Class EvObjectMap
  *
  * Maps an object/array to another object/array by add()ing one or more PropertyMap
  *
  * @package Evance\Utils
  * @see https://www.evance.me/help/api/client-libraries/php/mapper-utilities
  */
-class ObjectMap extends Object
+class EvObjectMap extends EvObject
 {
 
     /**
-     * ObjectMap constructor.
+     * EvObjectMap constructor.
      */
     public function __construct()
     {
@@ -25,7 +25,7 @@ class ObjectMap extends Object
 
     /**
      * @param PropertyMap $propertyMap
-     * @return ObjectMap
+     * @return EvObjectMap
      */
     public function add(PropertyMap $propertyMap)
     {
@@ -34,7 +34,9 @@ class ObjectMap extends Object
     }
 
     /**
-     * @return ObjectMap
+     * @param bool $strict
+     * @return $this
+     * @throws \ReflectionException
      */
     public function assignLeft($strict = true)
     {
@@ -47,8 +49,10 @@ class ObjectMap extends Object
 
     /**
      * Alias of assignRight()
-     * @see assignRight
-     * @return ObjectMap
+     *
+     * @param bool $strict
+     * @return EvObjectMap
+     * @throws \ReflectionException
      */
     public function assignLeftToRight($strict = true)
     {
@@ -56,7 +60,9 @@ class ObjectMap extends Object
     }
 
     /**
-     * @return ObjectMap
+     * @param bool $strict
+     * @return $this
+     * @throws \ReflectionException
      */
     public function assignRight($strict = true)
     {
@@ -69,8 +75,10 @@ class ObjectMap extends Object
 
     /**
      * Alias of assignleft()
-     * @see assignLeft
-     * @return ObjectMap
+     *
+     * @param bool $strict
+     * @return EvObjectMap
+     * @throws \ReflectionException
      */
     public function assignRightToLeft($strict = true)
     {
