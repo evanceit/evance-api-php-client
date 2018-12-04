@@ -57,6 +57,25 @@ class Contacts extends AbstractResource
     }
 
     /**
+     * Search for a single user by reference
+     * @param $reference
+     * @return mixed
+     */
+    public function searchWithReference($reference)
+    {
+        return $this->call('GET', "/contacts/search.json?reference={$reference}");
+    }
+
+    /**
+     * @param $email
+     * @return mixed
+     */
+    public function searchWithEmail($email)
+    {
+        return $this->call('GET', "/contacts/search.json?email={$email}");
+    }
+
+    /**
      * Update a Contact for the App with the new properties provided.
      * @param $id
      * @param $properties

@@ -2,9 +2,9 @@
 
 namespace Evance;
 
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 
-class ConfigManager extends Object
+class ConfigManager extends EvObject
 {
     // do nothing for now
 }

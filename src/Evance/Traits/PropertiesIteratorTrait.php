@@ -5,7 +5,7 @@ namespace Evance\Traits;
 /**
  * Adds Iterative behaviour to a the PropertiesArrayTrait for use where objects
  * require the ability to iterate through the properties array as if they are
- * properties of the Object.
+ * properties of the EvObject.
  */
 trait PropertiesIteratorTrait
 {
@@ -28,7 +28,7 @@ trait PropertiesIteratorTrait
     }
 
     /**
-     * Returns the number of properties within the Object's properties array.
+     * Returns the number of properties within the EvObject's properties array.
      * @return integer
      */
     public function length()

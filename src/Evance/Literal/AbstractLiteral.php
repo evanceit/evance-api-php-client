@@ -9,7 +9,7 @@ namespace Evance\Literal;
 abstract class AbstractLiteral
 {
     /**
-     * Magic method, returns a native string representation of the Object's value.
+     * Magic method, returns a native string representation of the EvObject's value.
      * @return string
      */
     public function __toString()
@@ -19,7 +19,8 @@ abstract class AbstractLiteral
 
     /**
      * @param $name
-     * @return mixed
+     * @return null
+     * @throws \ReflectionException
      */
     public function __get($name)
     {
@@ -27,8 +28,8 @@ abstract class AbstractLiteral
     }
 
     /**
-     * A factory method to create an instance of the called Literal/Object type.
-     * @return mixed
+     * @return object
+     * @throws \ReflectionException
      */
     public static function create()
     {
@@ -39,7 +40,8 @@ abstract class AbstractLiteral
 
     /**
      * @param $name
-     * @return mixed
+     * @return null
+     * @throws \ReflectionException
      */
     public function get($name)
     {
@@ -53,6 +55,7 @@ abstract class AbstractLiteral
     /**
      * @param $name
      * @return bool
+     * @throws \ReflectionException
      */
     protected function hasPseudoProperty($name)
     {
@@ -85,7 +88,7 @@ abstract class AbstractLiteral
 
     /**
      * Extending classes MUST define a toString() method, which returns a
-     * native string representation of the Object's value.
+     * native string representation of the EvObject's value.
      * @return string
      */
     abstract public function toString();

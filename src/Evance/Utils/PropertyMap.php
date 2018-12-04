@@ -2,13 +2,13 @@
 
 namespace Evance\Utils;
 
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 
 /**
  * Class PropertyMap
  *
  * Maps a property for an object/array to that of another object/array.
- * The property map is designed to be used in conjunction with an ObjectMap.
+ * The property map is designed to be used in conjunction with an EvObjectMap.
  *
  * @package Evance\Utils
  * @see https://www.evance.me/help/api/client-libraries/php/mapper-utilities
@@ -43,7 +43,10 @@ class PropertyMap
 
     /**
      * Gets the right side value and assigns it to the left object's property.
-     * @return PropertyMap
+     *
+     * @param bool $strict
+     * @return $this
+     * @throws \ReflectionException
      */
     public function assignLeft($strict = true)
     {
@@ -58,8 +61,10 @@ class PropertyMap
 
     /**
      * Alias of assignRight()
-     * @see assignRight
+     *
+     * @param bool $strict
      * @return PropertyMap
+     * @throws \ReflectionException
      */
     public function assignLeftToRight($strict = true)
     {
@@ -67,8 +72,11 @@ class PropertyMap
     }
 
     /**
-     * Gets the left side value and assigns it to the right Object's property.
-     * @return PropertyMap
+     * Gets the left side value and assigns it to the right EvObject's property.
+     *
+     * @param bool $strict
+     * @return $this
+     * @throws \ReflectionException
      */
     public function assignRight($strict = true)
     {
@@ -83,8 +91,10 @@ class PropertyMap
 
     /**
      * Alias of assignleft()
-     * @see assignLeft
+     *
+     * @param bool $strict
      * @return PropertyMap
+     * @throws \ReflectionException
      */
     public function assignRightToLeft($strict = true)
     {
@@ -94,10 +104,11 @@ class PropertyMap
     /**
      * Attempts to assign a value to the property of an object or associative array.
      *
-     * @param mixed $object
-     * @param string $property
-     * @param mixed $value
-     * @return PropertyMap
+     * @param $object
+     * @param $property
+     * @param $value
+     * @return $this
+     * @throws \ReflectionException
      */
     private function assignValue($object, $property, $value)
     {
@@ -123,7 +134,7 @@ class PropertyMap
                 }
             }
         }
-        if ($object instanceof Object) {
+        if ($object instanceof EvObject) {
             $object->set($property, $value);
             return $this;
         }
@@ -156,8 +167,9 @@ class PropertyMap
     }
 
     /**
-     * Returns the value stored in the left Object's property.
+     * Returns the value stored in the left EvObject's property.     *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function getLeftValue()
     {
@@ -197,8 +209,10 @@ class PropertyMap
     }
 
     /**
-     * Returns the value stored in the right Object's property.
+     * Returns the value stored in the right EvObject's property.
+     *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function getRightValue()
     {
@@ -207,9 +221,11 @@ class PropertyMap
 
     /**
      * Attempts to get a value of a property from an object or associative array.
+     *
      * @param $object
      * @param $property
      * @return mixed
+     * @throws \ReflectionException
      */
     public function getValueFrom($object, $property)
     {
@@ -232,7 +248,7 @@ class PropertyMap
                 }
             }
         }
-        if ($object instanceof Object) {
+        if ($object instanceof EvObject) {
             return $object->get($property);
         }
         if ($object instanceof \stdClass) {
@@ -246,6 +262,7 @@ class PropertyMap
 
     /**
      * @return bool
+     * @throws \ReflectionException
      */
     public function hasLeftProperty()
     {
@@ -254,6 +271,7 @@ class PropertyMap
 
     /**
      * @return bool
+     * @throws \ReflectionException
      */
     public function hasMatchingProperties()
     {
@@ -262,9 +280,11 @@ class PropertyMap
 
     /**
      * Tries to determine if a property exists within an object or associative array.
+     *
      * @param $object
-     * @param string $property
+     * @param $property
      * @return bool
+     * @throws \ReflectionException
      */
     public function hasProperty($object, $property)
     {
@@ -285,7 +305,7 @@ class PropertyMap
                 return true;
             }
         }
-        if ($object instanceof Object) {
+        if ($object instanceof EvObject) {
             return $object->has($property);
         }
         if ($object instanceof \stdClass) {
@@ -299,6 +319,7 @@ class PropertyMap
 
     /**
      * @return bool
+     * @throws \ReflectionException
      */
     public function hasRightProperty()
     {

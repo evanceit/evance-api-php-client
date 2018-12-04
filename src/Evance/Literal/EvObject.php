@@ -6,10 +6,10 @@ use Evance\Traits\PropertiesArrayTrait;
 use Evance\Traits\PropertiesIteratorTrait;
 
 /**
- * Class Object
+ * Class EvObject
  * @package Ev\Literal
  */
-class Object extends AbstractLiteral implements \Iterator, \Countable
+class EvObject extends AbstractLiteral implements \Iterator, \Countable
 {
 
     use PropertiesArrayTrait;
@@ -17,7 +17,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
 
     /**
      * Initiate a basic object using a properties array.
-     * @param array|\stdClass|\Evance\Literal\Object $properties
+     * @param array|\stdClass|\Evance\Literal\EvObject $properties
      */
     public function __construct($properties = [])
     {
@@ -52,7 +52,8 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
 
     /**
      * @param $name
-     * @return mixed
+     * @return null
+     * @throws \ReflectionException
      */
     public function get($name)
     {
@@ -104,7 +105,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
      * Put a property and value into the properties array.
      * @param string $property
      * @param mixed $value
-     * @return \Evance\Literal\Object
+     * @return \Evance\Literal\EvObject
      */
     public function put($property, $value)
     {
@@ -114,7 +115,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
 
     /**
      * Resets the internal properties to an empty array.
-     * @return \Evance\Literal\Object
+     * @return \Evance\Literal\EvObject
      */
     public function resetProperties()
     {
@@ -127,7 +128,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
      *
      * @param string $name
      * @param mixed $value
-     * @return \Evance\Literal\Object
+     * @return \Evance\Literal\EvObject
      */
     public function set($name, $value)
     {
@@ -138,7 +139,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
     /**
      * Resets the internal properties array to a new set of properties.
      * @param $properties
-     * @return \Evance\Literal\Object
+     * @return \Evance\Literal\EvObject
      */
     public function setProperties($properties)
     {
@@ -147,7 +148,7 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
     }
 
     /**
-     * Returns a JSON encoded string of the Object's properties.
+     * Returns a JSON encoded string of the EvObject's properties.
      * @return string
      */
     public function toJson()
@@ -156,13 +157,13 @@ class Object extends AbstractLiteral implements \Iterator, \Countable
     }
 
     /**
-     * Returns a native string representation of the Object.
+     * Returns a native string representation of the EvObject.
      * @return string
      */
     public function toString()
     {
         $className = get_called_class();
-        return "[Object {$className}]";
+        return "[EvObject {$className}]";
     }
 
 }

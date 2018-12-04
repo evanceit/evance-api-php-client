@@ -3,7 +3,7 @@
 namespace Evance\Traits;
 
 use Evance\Literal\AbstractLiteral;
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 
 /**
  * Adds property management behaviour to Classes using an associative array.
@@ -66,7 +66,7 @@ trait PropertiesArrayTrait
     /**
      * Remove a property from the properties array
      * @param string $name
-     * @return $this
+     * @return PropertiesArrayTrait
      */
     public function delete($name)
     {
@@ -81,8 +81,8 @@ trait PropertiesArrayTrait
      * Extend the supplied properties with the current set of properties.
      * The properties supplied are overwritten by the current ones.
      *
-     * @param array|\Evance\Literal\Object|\stdClass $properties
-     * @return $this
+     * @param array|\Evance\Literal\EvObject|\stdClass $properties
+     * @return PropertiesArrayTrait
      */
     public function extend($properties)
     {
@@ -123,8 +123,8 @@ trait PropertiesArrayTrait
      * Merge an array into the properties array.
      * Any existing properties are overwritten by the new properties supplied.
      *
-     * @param array|Object $properties
-     * @return $this
+     * @param array|EvObject $properties
+     * @return PropertiesArrayTrait
      */
     public function merge($properties)
     {
@@ -138,7 +138,7 @@ trait PropertiesArrayTrait
      *
      * @param string $name
      * @param mixed $value
-     * @return $this
+     * @return PropertiesArrayTrait
      */
     public function set($name, $value)
     {
@@ -168,13 +168,13 @@ trait PropertiesArrayTrait
      * Accepts one of the following argument types and then converts them to an array:
      * - array
      * - stdClass
-     * - Evance\Literal\Object
+     * - Evance\Literal\EvObject
      * @param $properties
      * @return array
      */
     protected function resolvePropertiesArgument($properties)
     {
-        if ($properties instanceof Object) {
+        if ($properties instanceof EvObject) {
             $properties = $properties->getProperties();
         } elseif ($properties instanceof \stdClass) {
             $properties = (array)$properties;

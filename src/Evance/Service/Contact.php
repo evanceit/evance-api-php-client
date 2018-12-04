@@ -4,7 +4,7 @@ namespace Evance\Service;
 
 use Evance\AbstractService;
 use Evance\ApiClient;
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 use Evance\Resource\Contacts as ContactsResource;
 
 /**
@@ -27,7 +27,7 @@ class Contact extends AbstractService
      */
     public function __construct(ApiClient $client, $properties = [])
     {
-        $properties = (new Object([
+        $properties = (new EvObject([
             'id'            => null,
             'firstname'     => '',
             'surname'       => '',

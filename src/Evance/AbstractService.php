@@ -2,10 +2,10 @@
 
 namespace Evance;
 
-use Evance\Literal\Object;
+use Evance\Literal\EvObject;
 use Webmozart\Assert\Assert;
 
-class AbstractService extends Object
+class AbstractService extends EvObject
 {
 
     /** @var ApiClient */
@@ -37,7 +37,7 @@ class AbstractService extends Object
 
     /**
      * Attempts to add object data to the resource's API endpoint.
-     * All properties for the Object are sent via the resource to the API.
+     * All properties for the EvObject are sent via the resource to the API.
      * Note: If a system ID is set for the object it will be ignored and a new ID
      * will be generated.
      * Returns TRUE if the addition was successful, or FALSE if not.
@@ -106,7 +106,8 @@ class AbstractService extends Object
     /**
      * The default method for obtaining the system ID property associated with
      * a GET, PUT or DELETE API request where the system ID is required.
-     * @return mixed
+     * @return null
+     * @throws \ReflectionException
      */
     public function getId()
     {
@@ -135,7 +136,9 @@ class AbstractService extends Object
      * Determines whether the System ID for the object has been set.
      * Generally, this is used internally to determine whether a save
      * operation is a POST (with no ID) or a PUT (with an ID).
+     *
      * @return bool
+     * @throws \ReflectionException
      */
     public function hasId()
     {
@@ -143,12 +146,14 @@ class AbstractService extends Object
     }
 
     /**
-     * Attempts to save the Object Data to the API Resource.
+     * Attempts to save the EvObject Data to the API Resource.
      * The save method automatically determines whether it should add() or update() the object
      * depending on whether the object has a system ID set or not.
      * However, you may also use add() or update() independently.
      * Returns TRUE if the save was successful, or FALSE if not.
+     *
      * @return bool
+     * @throws \ReflectionException
      */
     public function save()
     {
@@ -160,7 +165,7 @@ class AbstractService extends Object
      * By default this should usually be 'id' and you should not need to change it
      * unless the id property is different.
      * @param string $propertyName
-     * @return $this
+     * @return AbstractService
      */
     protected function setSystemIdProperty($propertyName)
     {
@@ -170,7 +175,7 @@ class AbstractService extends Object
     }
 
     /**
-     * Attempts to update an Object based on its system ID.
+     * Attempts to update an EvObject based on its system ID.
      * All properties for the object are sent via the resource to the API.
      * It is up to the API to determine which properties it wishes to map.
      * Returns TRUE if the update was successful, or FALSE if not.
