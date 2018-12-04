@@ -63,7 +63,7 @@ class Contacts extends AbstractResource
      */
     public function searchWithReference($reference)
     {
-        return $this->call('GET', "/contacts/search.json?ref={$reference}");
+        return $this->call('GET', "/contacts/search.json?reference={$reference}");
     }
 
     /**
