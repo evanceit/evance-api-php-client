@@ -76,6 +76,15 @@ class Contacts extends AbstractResource
     }
 
     /**
+     * @param $leaveDate
+     * @return mixed
+     */
+    public function searchWithLeaveDate($leaveDate)
+    {
+        return $this->call('GET', "/contacts/search.json?leaveDate={$leaveDate}");
+    }
+
+    /**
      * Update a Contact for the App with the new properties provided.
      * @param $id
      * @param $properties
