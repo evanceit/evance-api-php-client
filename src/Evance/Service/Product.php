@@ -11,6 +11,8 @@ use Evance\Resource\Products;
 /**
  * @method bool getIsStocked()
  *
+ * @method Products getResource()
+ *
  * @package Evance\Service\Product
  */
 class Product extends AbstractService
@@ -24,13 +26,16 @@ class Product extends AbstractService
     {
         // First a new Evance\Literal\EvObject is created with a
         $properties = (new EvObject([
-            'isStocked'     => true,
-            'firstname'     => '',
-            'surname'       => '',
-            'type'          => 'user',
-            'username'      => ''
+
         ]))->merge($properties);
         parent::__construct($client, new ProductsResource($client), 'product',  $properties);
+    }
+
+    public function fetchBySku($sku)
+    {
+
+        $resource = $this->getResource();
+        var_dump($resource->search(['skus' => $sku]));
     }
     
     public function isStocked()

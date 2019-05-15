@@ -5,9 +5,13 @@ namespace Evance;
 use Evance\Literal\EvObject;
 use Webmozart\Assert\Assert;
 
+/**
+ * Class AbstractService
+ *
+ * @package Evance
+ */
 class AbstractService extends EvObject
 {
-
     /** @var ApiClient */
     private $client;
 
