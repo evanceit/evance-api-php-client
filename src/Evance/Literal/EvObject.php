@@ -53,7 +53,6 @@ class EvObject extends AbstractLiteral implements \Iterator, \Countable
     /**
      * @param $name
      * @return null
-     * @throws \ReflectionException
      */
     public function get($name)
     {
