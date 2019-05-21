@@ -27,12 +27,10 @@ class Products extends AbstractResource
      * @param $query
      * @return mixed
      */
-    public function search(array $query)
+    public function search(array $parameters = [])
     {
-        // Ensure there's no whitespace sent in the query string
-        $query = preg_replace( '/\s+/', '', $query );
-        Assert::isArray($query, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
-        return $this->call('GET', "/products.json", [], $query);
+        Assert::isArray($parameters, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
+        return $this->call('GET', "/products.json", [], $parameters);
     }
 
     /**
