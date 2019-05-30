@@ -37,6 +37,30 @@ class Branches extends AbstractResource
     }
 
     /**
+     * remove a contact from a branch for the App.
+     * @param $contactId string|int Contact ID
+     * @param $branchId string|int Branch ID
+     * @return mixed
+     */
+    public function deleteContactFromBranch($contactId, $branchId)
+    {
+    	Assert::integerish($contactId, __METHOD__ . ' expects contactId to be a valid number');
+	    Assert::integerish($branchId, __METHOD__ . ' expects branchId to be a valid number');
+        return $this->call('DELETE', "/branches/{$branchId}/contact/{$contactId}.json");
+    }
+
+    /**
+     * remove a contact from all branches for the App.
+     * @param $contactId string|int Contact ID
+     * @return mixed
+     */
+    public function deleteContactFromBranches($contactId)
+    {
+	    Assert::integerish($contactId, __METHOD__ . ' expects contactId to be a valid number');
+        return $this->call('DELETE', "/branches/contact/{$contactId}.json");
+    }
+
+    /**
      * Delete a Branch based on ID for the App.
      * @param $id
      * @return mixed
