@@ -82,6 +82,12 @@ class Branches extends AbstractResource
         return $this->call('GET', "/branches/{$id}.json");
     }
 
+    public function getBranchesForContact($id)
+    {
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        return $this->call('GET', "/branches/contact/{$id}.json");
+    }
+
     /**
      * Search for Branches by reference.
      * @param $reference
