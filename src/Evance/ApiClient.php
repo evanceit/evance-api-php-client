@@ -33,6 +33,7 @@ class ApiClient
 			'client_id' => '',
 			'client_secret' => '',
 			'redirect_uri' => '',
+			'scope' => '',
 			'state' => '',
 			'private_key' => null,
 			'algorithm' => 'HS256'
@@ -46,7 +47,8 @@ class ApiClient
      */
 	public function addScope($scope)
     {
-        $this->scopes[] = $scope;
+        $scopes = trim(implode(' ', [$this->getConfig('scope'), trim($scope)]));
+        $this->setScope($scopes);
         return $this;
 	}
 
@@ -431,11 +433,11 @@ class ApiClient
      */
 	public function prepareScopes()
     {
-		if(!count($this->scopes)){
-			return null;
-		}
-		$scopes = implode(' ', $this->scopes);
-		return trim($scopes);
+        $scopes = $this->getConfig('scope');
+        if (!strlen($scopes)) {
+            return null;
+        }
+		return $scopes;
 	}
 
     /**
@@ -492,6 +494,12 @@ class ApiClient
 		$this->setConfig('redirect_uri', $uri);
 		return $this;
 	}
+	
+    public function setScope($scopeString)
+    {
+        $this->setConfig('scope', $scopeString);
+        return $this;
+    }
 
     /**
      * @param $state
