@@ -6,7 +6,7 @@ This library is currently a work in progress. It is therefore subject
 to dramatic changes. 
 
 ## Requirements
-PHP 5.6 or higher
+PHP 5.6 or higher 
 
 ## Installation
 You can use **Composer** (our preferred method) or download the source.
