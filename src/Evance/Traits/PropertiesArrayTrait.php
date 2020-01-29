@@ -116,7 +116,7 @@ trait PropertiesArrayTrait
     public function has($name)
     {
         $name = $this->resolvePropertyName($name);
-        return isset($this->properties[$name]);
+        return array_key_exists($name, $this->properties);
     }
 
     /**

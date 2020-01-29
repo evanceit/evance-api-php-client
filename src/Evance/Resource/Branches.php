@@ -72,6 +72,15 @@ class Branches extends AbstractResource
     }
 
     /**
+     * Get all branches
+     * @return mixed
+     */
+    public function getAllBranches()
+    {
+        return $this->call('GET', "/api/branches/search.json");
+    }
+
+    /**
      * Get a Branch for the App.
      * @param $id
      * @return mixed
