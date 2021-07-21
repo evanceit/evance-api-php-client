@@ -3,6 +3,7 @@
 namespace Evance;
 
 use Evance;
+use Exception;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
@@ -66,8 +67,8 @@ class ApiClient
 
     /**
      * @param ClientInterface|null $http
-     * @return Client|ClientInterface
-     * @throws \Exception
+     * @return ClientInterface
+     * @throws Exception
      */
     public function authorize(ClientInterface $http = null)
     {
@@ -83,7 +84,7 @@ class ApiClient
             // add refresh subscriber to request a new token
             if ($this->hasAccessTokenExpired() && isset($token['refresh_token'])) {
                 // @ todo: replace with a more elegant solution
-                throw new \Exception('Access token has expired');
+                throw new Exception('Access token has expired');
             }
         }
         return $http;
@@ -514,19 +515,19 @@ class ApiClient
     /**
      * @param $params
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
 	public function verifyAuthorizeCallback($params)
     {
 		if(!isset($params['code'])){
-			throw new \Exception('Missing code query parameter');
+			throw new Exception('Missing code query parameter');
 		}
 		// @ todo: verify state id is correct
 		if(!isset($params['state'])){
-			throw new \Exception('Missing state query parameter');
+			throw new Exception('Missing state query parameter');
 		}
         if(!isset($params['account'])){
-            throw new \Exception('Missing account query parameter');
+            throw new Exception('Missing account query parameter');
         }
 		if(!$this->getAccount() && isset($params['account'])){
 			$this->setAccount($params['account']);

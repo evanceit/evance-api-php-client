@@ -60,21 +60,7 @@ trait PropertiesArrayTrait
      */
     public function __unset($name)
     {
-        $this->delete($name);
-    }
-
-    /**
-     * Remove a property from the properties array
-     * @param string $name
-     * @return PropertiesArrayTrait
-     */
-    public function delete($name)
-    {
-        $name = $this->resolvePropertyName($name);
-        if ($this->has($name)) {
-            unset($this->properties[$name]);
-        }
-        return $this;
+        $this->unset($name);
     }
 
     /**
@@ -183,6 +169,20 @@ trait PropertiesArrayTrait
             throw new \InvalidArgumentException('Invalid properties, expected array, stdClass or Ev\Literal\Object');
         }
         return $properties;
+    }
+
+    /**
+     * Remove a property from the properties array
+     * @param string $name
+     * @return PropertiesArrayTrait
+     */
+    public function unset($name)
+    {
+        $name = $this->resolvePropertyName($name);
+        if ($this->has($name)) {
+            unset($this->properties[$name]);
+        }
+        return $this;
     }
 	
 }
