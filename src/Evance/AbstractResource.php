@@ -20,6 +20,10 @@ use Webmozart\Assert\Assert;
  */
 abstract class AbstractResource
 {
+    const DEFAULT_API_VERSION = "";
+    const V1 = "";
+    const V2 = "v2/";
+
     /** @var ApiClient */
     private $client;
 
@@ -29,6 +33,7 @@ abstract class AbstractResource
      */
     public function __construct(ApiClient $client)
     {
+        $this->version = self::DEFAULT_API_VERSION;
         $this->client = $client;
     }
 
@@ -107,6 +112,13 @@ abstract class AbstractResource
         throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
+    /**
+     * @param string $version
+     * @return void
+     */
+    public function setVersion(string $version) {
+        $this->version = $version;
+    }
 
 
 }
