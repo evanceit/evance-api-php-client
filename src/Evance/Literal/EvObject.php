@@ -68,7 +68,7 @@ class EvObject extends AbstractLiteral implements \Iterator, \Countable
      * This allows Objects to be used with PHP's count() function.
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->length();
     }

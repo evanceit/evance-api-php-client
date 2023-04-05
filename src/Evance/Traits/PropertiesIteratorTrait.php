@@ -13,7 +13,7 @@ trait PropertiesIteratorTrait
      * Returns the current element in the internal properties array.
      * @return mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->properties);
     }
@@ -22,7 +22,7 @@ trait PropertiesIteratorTrait
      * Returns the key of the current element.
      * @return mixed
      */
-    public function key()
+    public function key(): mixed
     {
         return key($this->properties);
     }
@@ -31,7 +31,7 @@ trait PropertiesIteratorTrait
      * Returns the number of properties within the EvObject's properties array.
      * @return integer
      */
-    public function length()
+    public function length(): int
     {
         return count($this->properties);
     }
@@ -40,7 +40,7 @@ trait PropertiesIteratorTrait
      * Iterator: Move forward to next element
      * @return void
      */
-    public function next()
+    public function next(): void
     {
         next($this->properties);
         return;
@@ -48,19 +48,18 @@ trait PropertiesIteratorTrait
 
     /**
      * Rewind the Iterator pointer to the first property in the Array.
-     * @return mixed
+     * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->properties);
-        return $this;
     }
 
     /**
      * Checks if current properties position is valid
      * @return boolean
      */
-    public function valid()
+    public function valid(): bool
     {
         return (key($this->properties) !== NULL);
     }
