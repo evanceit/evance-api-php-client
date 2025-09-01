@@ -7,33 +7,88 @@ use Evance\ApiClient;
 
 class Addresses extends AbstractResource
 {
-    public function __construct(ApiClient $client)
+    /**
+     * @var int|null
+     */
+    public ?int $contactId;
+
+    public function __construct(ApiClient $client, $contactId= null)
     {
         parent::__construct($client);
+        $this->contactId = $contactId;
     }
 
-    public function getOne($contactId, $addressId)
+    /**
+     * @param $addressId
+     * @param $contactId
+     * @return void
+     */
+    public function getOne($addressId, $contactId= null)
     {
+        $contactId = $contactId ?? $this->contactId;
+        if (!$contactId) {
+            throw new \invalidArgumentException('contactId is required');
+        }
         $this->notImplementedV2('Contacts\\Addresses', __METHOD__);
     }
 
-    public function getMany($contactId, array $params = [])
+    /**
+     * @param array $params
+     * @param $contactId
+     * @return void
+     */
+    public function getMany(array $params = [], $contactId= null)
     {
+        $contactId = $contactId ?? $this->contactId;
+        if (!$contactId) {
+            throw new \invalidArgumentException('contactId is required');
+        }
+
         $this->notImplementedV2('Contacts\\Addresses', __METHOD__);
     }
 
-    public function postOne($contactId, array $body)
+    /**
+     * @param array $body
+     * @param $contactId
+     * @return void
+     */
+    public function postOne(array $body, $contactId= null)
     {
+        $contactId = $contactId ?? $this->contactId;
+        if (!$contactId) {
+            throw new \invalidArgumentException('contactId is required');
+        }
+
         $this->notImplementedV2('Contacts\\Addresses', __METHOD__);
     }
 
-    public function putOne($contactId, $addressId, array $body)
+    /**
+     * @param $addressId
+     * @param array $body
+     * @param $contactId
+     * @return void
+     */
+    public function putOne($addressId, array $body, $contactId= null)
     {
+        $contactId = $contactId ?? $this->contactId;
+        if (!$contactId) {
+            throw new \invalidArgumentException('contactId is required');
+        }
+
         $this->notImplementedV2('Contacts\\Addresses', __METHOD__);
     }
 
-    public function deleteOne($contactId, $addressId)
+    /**
+     * @param $addressId
+     * @param $contactId
+     * @return void
+     */
+    public function deleteOne($addressId, $contactId= null)
     {
+        $contactId = $contactId ?? $this->contactId;
+        if (!$contactId) {
+            throw new \invalidArgumentException('contactId is required');
+        }
         $this->notImplementedV2('Contacts\\Addresses', __METHOD__);
     }
 }

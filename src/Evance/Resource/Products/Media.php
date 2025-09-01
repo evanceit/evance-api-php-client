@@ -7,33 +7,90 @@ use Evance\ApiClient;
 
 class Media extends AbstractResource
 {
-    public function __construct(ApiClient $client)
+    /**
+     * @var int|null
+     */
+    public ?int $productId;
+
+    public function __construct(ApiClient $client, ?int $productId = null)
     {
         parent::__construct($client);
+        $this->productId = $productId;
     }
 
-    public function getOne($productId, $mediaId)
+    /**
+     * @param $mediaId
+     * @param int|null $productId
+     * @return void
+     */
+    public function getOne($mediaId, ?int $productId = null)
     {
+        $productId = $productId ?? $this->productId;
+        if (!$productId) {
+            throw new \invalidArgumentException('productId is required');
+        }
+
         $this->notImplementedV2('Products\\Media', __METHOD__);
     }
 
-    public function getMany($productId, array $params = [])
+    /**
+     * @param array $params
+     * @param int|null $productId
+     * @return void
+     */
+    public function getMany(array $params = [], ?int $productId = null)
     {
+        $productId = $productId ?? $this->productId;
+        if (!$productId) {
+            throw new \invalidArgumentException('productId is required');
+        }
+
         $this->notImplementedV2('Products\\Media', __METHOD__);
     }
 
-    public function postOne($productId, array $body)
+    /**
+     * @param array $body
+     * @param int|null $productId
+     * @return void
+     */
+    public function postOne(array $body, ?int $productId = null)
     {
+        $productId = $productId ?? $this->productId;
+        if (!$productId) {
+            throw new \invalidArgumentException('productId is required');
+        }
+
         $this->notImplementedV2('Products\\Media', __METHOD__);
     }
 
-    public function putOne($productId, $mediaId, array $body)
+    /**
+     * @param $mediaId
+     * @param array $body
+     * @param int|null $productId
+     * @return void
+     */
+    public function putOne($mediaId, array $body, ?int $productId = null)
     {
+        $productId = $productId ?? $this->productId;
+        if (!$productId) {
+            throw new \invalidArgumentException('productId is required');
+        }
+
         $this->notImplementedV2('Products\\Media', __METHOD__);
     }
 
-    public function deleteOne($productId, $mediaId)
+    /**
+     * @param $mediaId
+     * @param int|null $productId
+     * @return void
+     */
+    public function deleteOne($mediaId, ?int $productId = null)
     {
+        $productId = $productId ?? $this->productId;
+        if (!$productId) {
+            throw new \invalidArgumentException('productId is required');
+        }
+
         $this->notImplementedV2('Products\\Media', __METHOD__);
     }
 }
