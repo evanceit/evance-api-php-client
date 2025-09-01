@@ -28,6 +28,49 @@ abstract class AbstractResource
     private $client;
 
     /**
+     * Current API version prefix used when building URLs ('' for v1, 'v2/' for v2)
+     * @var string
+     */
+    protected $version;
+
+    /**
+     * Internal map of resource version support to control deprecation notices.
+     * Keys are resource identifiers (e.g. 'Products', 'Products\\Prices').
+     */
+    private static $resourceVersionSupport = [
+        // Existing resources
+        'Branches' => ['v1' => true, 'v2' => false],
+        'Categories' => ['v1' => true, 'v2' => true],
+        'Contacts' => ['v1' => true, 'v2' => true],
+        'Pages' => ['v1' => true, 'v2' => true],
+        'Downloads' => ['v1' => false, 'v2' => true],
+        'Inventory' => ['v1' => false, 'v2' => true],
+        'Locations' => ['v1' => false, 'v2' => true],
+        'ProductMedia' => ['v1' => true, 'v2' => false],
+        'Products' => ['v1' => true, 'v2' => true],
+        'ProductSpecification' => ['v1' => true, 'v2' => false],
+        'ProductTranslations' => ['v1' => true, 'v2' => false],
+        'Webhooks' => ['v1' => false, 'v2' => true],
+        'Welcome' => ['v1' => true, 'v2' => true],
+        // New V2 stubs (not yet implemented)
+        'Geozones' => ['v1' => false, 'v2' => true],
+        'Giftcards' => ['v1' => false, 'v2' => true],
+        'Redirects' => ['v1' => false, 'v2' => true],
+        'Roles' => ['v1' => false, 'v2' => true],
+        'Specifications' => ['v1' => false, 'v2' => true],
+        'Taggroups' => ['v1' => false, 'v2' => true],
+        'Categories\\Entries' => ['v1' => false, 'v2' => true],
+        'Contacts\\Addresses' => ['v1' => false, 'v2' => true],
+        'Contacts\\Roles' => ['v1' => false, 'v2' => true],
+        'Products\\Downloads' => ['v1' => false, 'v2' => true],
+        'Products\\Media' => ['v1' => false, 'v2' => true],
+        'Products\\Prices' => ['v1' => false, 'v2' => true],
+        'Products\\Specifications' => ['v1' => false, 'v2' => true],
+        'Specifications\\Values' => ['v1' => false, 'v2' => true],
+        'Taggroups\\Tags' => ['v1' => false, 'v2' => true],
+    ];
+
+    /**
      * Resource constructor.
      * @param ApiClient $client The Evance PHP Client to connect to the Resource.
      */
@@ -50,6 +93,9 @@ abstract class AbstractResource
         Assert::nullOrIsArray($params, __METHOD__ . ' expects call parameters to be null or an array');
         Assert::nullOrIsArray($body, __METHOD__ . ' expects call body to be null or an array');
         Assert::string($url, __METHOD__ . ' expects the $url to be provided as a string');
+
+        // Emit deprecation notices for legacy v1 usage when applicable
+        $this->maybeWarnForDeprecatedVersionUsage();
 
         $uri = $this->client->getResourceUri($url);
         $request = new Request(
@@ -168,5 +214,42 @@ abstract class AbstractResource
         $this->version = $version;
     }
 
+    /**
+     * Determine if we should emit a deprecation warning based on the resource and version.
+     */
+    protected function maybeWarnForDeprecatedVersionUsage(): void
+    {
+        // V2 or unspecified resource mapping – do nothing
+        if ($this->version === self::V2) {
+            return;
+        } else {
+            // Resolve resource identifier relative to Evance\Resource namespace
+            $fqcn = get_class($this);
+            $prefix = 'Evance\\Resource\\';
+            $resourceKey = strpos($fqcn, $prefix) === 0 ? substr($fqcn, strlen($prefix)) : $fqcn;
+            if (!isset(self::$resourceVersionSupport[$resourceKey])) {
+                return;
+            }
+            $support = self::$resourceVersionSupport[$resourceKey];
+            if (!empty($support['v1']) && !empty($support['v2'])) {
+                @trigger_error($resourceKey . ' v1 is deprecated. Consider using v2 for this resource. The call will proceed using v1.', E_USER_DEPRECATED);
+                return;
+            }
+            // If resource only exists in v1, warn deprecated but no alternative
+            if (!empty($support['v1']) && empty($support['v2'])) {
+                @trigger_error($resourceKey . ' uses legacy v1 and is deprecated. No v2 alternative is available yet. The call will proceed.', E_USER_DEPRECATED);
+            }
+        }
+    }
+
+    /**
+     * Helper for V2 placeholders not yet implemented in this client.
+     * Always triggers a warning and throws to avoid accidental network calls.
+     */
+    protected function notImplementedV2(string $resource, string $method): void
+    {
+        @trigger_error($resource . ' (v2) is not implemented in this PHP client yet. Method: ' . $method, E_USER_WARNING);
+        throw new \RuntimeException($resource . ' (v2) not implemented: ' . $method);
+    }
 
 }

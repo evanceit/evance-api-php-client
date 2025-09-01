@@ -6,6 +6,7 @@ use Evance\AbstractResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+
 class Branches extends AbstractResource
 {
     public function __construct(ApiClient $client)
