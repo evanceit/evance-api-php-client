@@ -79,37 +79,85 @@ abstract class AbstractResource
      * @param $properties
      * @return mixed
      */
-    public function add($properties)
+    // New canonical method names
+    public function getOne($id)
     {
         throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id)
+    public function getMany(array $params = [])
     {
         throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
+    public function postOne(array $body)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
+
+    public function putOne($id, array $body)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
+
+    public function deleteOne($id)
+    {
+        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+    }
+
+    // Legacy methods kept for BC with deprecation notices
     /**
-     * @param $id
-     * @return mixed
+     * @deprecated Use getOne($id) instead
      */
     public function get($id)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        @trigger_error(__METHOD__ . ' is deprecated. Use getOne($id) instead.', E_USER_DEPRECATED);
+        return $this->getOne($id);
     }
 
     /**
-     * @param $id
-     * @param $properties
-     * @return mixed
+     * @deprecated Use getMany($params) instead. Some resources may also support more specific list/search helpers.
+     */
+    public function search($params)
+    {
+        @trigger_error(__METHOD__ . ' is deprecated. Use getMany($params) instead.', E_USER_DEPRECATED);
+        return $this->getMany($params);
+    }
+
+    /**
+     * @deprecated Use getMany($params) instead.
+     */
+    public function list($params = [])
+    {
+        @trigger_error(__METHOD__ . ' is deprecated. Use getMany($params) instead.', E_USER_DEPRECATED);
+        return $this->getMany($params);
+    }
+
+    /**
+     * @deprecated Use postOne($body) instead
+     */
+    public function add($properties)
+    {
+        @trigger_error(__METHOD__ . ' is deprecated. Use postOne($body) instead.', E_USER_DEPRECATED);
+        return $this->postOne($properties);
+    }
+
+    /**
+     * @deprecated Use putOne($id, $body) instead
      */
     public function update($id, $properties)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        @trigger_error(__METHOD__ . ' is deprecated. Use putOne($id, $body) instead.', E_USER_DEPRECATED);
+        return $this->putOne($id, $properties);
+    }
+
+    /**
+     * @deprecated Use deleteOne($id) instead
+     */
+    public function delete($id)
+    {
+        @trigger_error(__METHOD__ . ' is deprecated. Use deleteOne($id) instead.', E_USER_DEPRECATED);
+        return $this->deleteOne($id);
     }
 
     /**
