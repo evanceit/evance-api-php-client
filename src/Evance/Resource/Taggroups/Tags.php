@@ -2,64 +2,50 @@
 
 namespace Evance\Resource\Taggroups;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
+use invalidArgumentException;
 
-class Tags extends AbstractResource
+class Tags extends AbstractChildResource
 {
     /**
      * @var int|null
      */
-    public ?int $taggroupId;
+    public ?int $parentId;
 
-    public function __construct(ApiClient $client, ?int $taggroupId = null)
+    public function __construct(ApiClient $client, ?int $parentId = null)
     {
         parent::__construct($client);
-        $this->taggroupId = $taggroupId;
+        $this->parentId = $parentId;
     }
 
-    public function getOne($tagId, ?int $taggroupId = null)
+    public function getOne($id, ?int $parentId = null)
     {
-        $taggroupId = $taggroupId ?? $this->taggroupId;
-        if (!$taggroupId) {
-            throw new \invalidArgumentException('taggroupId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Taggroups\\Tags', __METHOD__);
     }
 
-    public function getMany(array $params = [], ?int $taggroupId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
-        $taggroupId = $taggroupId ?? $this->taggroupId;
-        if (!$taggroupId) {
-            throw new \invalidArgumentException('taggroupId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Taggroups\\Tags', __METHOD__);
     }
 
-    public function postOne(array $body, ?int $taggroupId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
-        $taggroupId = $taggroupId ?? $this->taggroupId;
-        if (!$taggroupId) {
-            throw new \invalidArgumentException('taggroupId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Taggroups\\Tags', __METHOD__);
     }
 
-    public function putOne($tagId, array $body, ?int $taggroupId = null)
+    public function putOne($id, array $body, ?int $parentId = null)
     {
-        $taggroupId = $taggroupId ?? $this->taggroupId;
-        if (!$taggroupId) {
-            throw new \invalidArgumentException('taggroupId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Taggroups\\Tags', __METHOD__);
     }
 
-    public function deleteOne($tagId, ?int $taggroupId = null)
+    public function deleteOne($id, ?int $parentId = null)
     {
-        $taggroupId = $taggroupId ?? $this->taggroupId;
-        if (!$taggroupId) {
-            throw new \invalidArgumentException('taggroupId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Taggroups\\Tags', __METHOD__);
     }
 }

@@ -11,7 +11,8 @@
     "guzzlehttp/guzzle": "^7.2",
     "guzzlehttp/psr7": "^1.2",
     "firebase/php-jwt": "~2.0|~3.0|~4.0",
-    "webmozart/assert": "^1.2"
+    "webmozart/assert": "^1.2",
+    "ext-openssl": "*"
   },
   "autoload": {
     "psr-4": {

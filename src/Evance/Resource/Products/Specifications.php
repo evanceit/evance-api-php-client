@@ -2,64 +2,50 @@
 
 namespace Evance\Resource\Products;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
+use invalidArgumentException;
 
-class Specifications extends AbstractResource
+class Specifications extends AbstractChildResource
 {
     /**
      * @var int|null
      */
-    public ?int $productId;
+    public ?int $parentId;
 
-    public function __construct(ApiClient $client, ?int $productId = null)
+    public function __construct(ApiClient $client, ?int $parentId = null)
     {
         parent::__construct($client);
-        $this->productId = $productId;
+        $this->parentId = $parentId;
     }
 
-    public function getOne($specificationId, ?int $productId = null)
+    public function getOne($id, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Products\\Specifications', __METHOD__);
     }
 
-    public function getMany(array $params = [], ?int $productId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Products\\Specifications', __METHOD__);
     }
 
-    public function postOne(array $body, ?int $productId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Products\\Specifications', __METHOD__);
     }
 
-    public function putOne($specificationId, array $body, ?int $productId = null)
+    public function putOne($id, array $body, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Products\\Specifications', __METHOD__);
     }
 
-    public function deleteOne($specificationId, ?int $productId = null)
+    public function deleteOne($id, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Products\\Specifications', __METHOD__);
     }
 }

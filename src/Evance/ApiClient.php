@@ -24,8 +24,9 @@ class ApiClient
 	private $auth;
 	private $accessToken;
 	private $http;
-	
-	public function __construct(array $config = [])
+    private $token;
+
+    public function __construct(array $config = [])
     {
 		$this->config = new Evance\ConfigManager([
 			'account' => '',
@@ -124,7 +125,7 @@ class ApiClient
 	}
 
     /**
-     * @return Client
+     * @return HttpClient
      */
     protected function createDefaultHttpClient()
     {
@@ -265,7 +266,7 @@ class ApiClient
 	}
 
     /**
-     * @return Client
+     * @return HttpClient
      */
     public function getHttpClient()
     {
@@ -285,14 +286,14 @@ class ApiClient
 	    $privateKey = $this->getSigningKey();
 
 	    // @todo: scopes
-	    $payload = json_encode([
+	    $payload = [
 	        'aud' => $this->getTokenUri(),
             'exp' => strtotime('now + 1 hour'),
             'iat' => time(),
             'scope' => $this->prepareScopes(),
             'sub' => $this->getClientId(),
             'iss' => $this->getClientId()
-        ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        ];
 
         return JWT::encode($payload, $privateKey, $algorithm);
     }
@@ -423,7 +424,7 @@ class ApiClient
     {
 		$account = $this->getConfig('account');
 		if(empty($account)){
-			throw \Exception('Missing account property in config');
+			throw new Exception('Missing account property in config');
 		}
 		$uri = str_replace('{account}', $account, $uri);
 		return $uri;

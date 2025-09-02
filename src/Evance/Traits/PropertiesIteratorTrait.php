@@ -13,7 +13,7 @@ trait PropertiesIteratorTrait
      * Returns the current element in the internal properties array.
      * @return mixed
      */
-    public function current(): mixed
+    public function current()
     {
         return current($this->properties);
     }
@@ -22,7 +22,7 @@ trait PropertiesIteratorTrait
      * Returns the key of the current element.
      * @return mixed
      */
-    public function key(): mixed
+    public function key()
     {
         return key($this->properties);
     }

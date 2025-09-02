@@ -2,93 +2,79 @@
 
 namespace Evance\Resource\Contacts;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
+use invalidArgumentException;
 
-class Roles extends AbstractResource
+class Roles extends AbstractChildResource
 {
     /**
      * @var int|null
      */
-    public ?int $contactId;
+    public ?int $parentId;
 
-    public function __construct(ApiClient $client, $contactId = null)
+    public function __construct(ApiClient $client, $parentId = null)
     {
         parent::__construct($client);
-        $this->contactId = $contactId;
+        $this->parentId = $parentId;
     }
 
     /**
-     * @param $roleId
-     * @param $contactId
+     * @param $id
+     * @param null $parentId
      * @return void
      */
-    public function getOne($roleId, $contactId = null)
+    public function getOne($id, $parentId = null)
     {
-        $contactId = $contactId ?? $this->contactId;
-        if (!$contactId) {
-            throw new \invalidArgumentException('contactId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
     }
 
     /**
      * @param array $params
-     * @param $contactId
+     * @param $parentId
      * @return void
      */
-    public function getMany(array $params = [], $contactId= null)
+    public function getMany(array $params = [], $parentId= null)
     {
-        $contactId = $contactId ?? $this->contactId;
-        if (!$contactId) {
-            throw new \invalidArgumentException('contactId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
     }
 
     /**
      * @param array $body
-     * @param $contactId
+     * @param $parentId
      * @return void
      */
-    public function postOne(array $body, $contactId= null)
+    public function postOne(array $body, $parentId= null)
     {
-        $contactId = $contactId ?? $this->contactId;
-        if (!$contactId) {
-            throw new \invalidArgumentException('contactId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
     }
 
     /**
-     * @param $roleId
+     * @param $id
      * @param array $body
-     * @param $contactId
+     * @param $parentId
      * @return void
      */
-    public function putOne($roleId, array $body, $contactId= null)
+    public function putOne($id, array $body, $parentId= null)
     {
-        $contactId = $contactId ?? $this->contactId;
-        if (!$contactId) {
-            throw new \invalidArgumentException('contactId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
     }
 
     /**
-     * @param $roleId
-     * @param $contactId
+     * @param $id
+     * @param $parentId
      * @return void
      */
-    public function deleteOne($roleId, $contactId= null)
+    public function deleteOne($id, $parentId= null)
     {
-        $contactId = $contactId ?? $this->contactId;
-        if (!$contactId) {
-            throw new \invalidArgumentException('contactId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
     }

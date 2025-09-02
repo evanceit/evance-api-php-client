@@ -23,13 +23,13 @@ class Inventory extends AbstractResource
     }
 
     /**
-     * @param $parameters
+     * @param array $params
      * @return mixed
      */
-    public function search(array $parameters = [])
+    public function search($params = [])
     {
-        Assert::isArray($parameters, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
-        return $this->call('GET', "/".$this->version."inventory.json", [], $parameters);
+        Assert::isArray($params, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
+        return $this->call('GET', "/".$this->version."inventory.json", [], $params);
     }
 
     /**

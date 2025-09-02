@@ -2,94 +2,80 @@
 
 namespace Evance\Resource\Products;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
+use invalidArgumentException;
 
-class Downloads extends AbstractResource
+class Downloads extends AbstractChildResource
 {
     /**
      * @var int|null
      */
-    public ?int $productId;
+    public ?int $parentId;
 
-    public function __construct(ApiClient $client, ?int $productId = null)
+    public function __construct(ApiClient $client, ?int $parentId = null)
     {
         parent::__construct($client);
-        $this->productId = $productId;
+        $this->parentId = $parentId;
     }
 
     /**
-     * @param $downloadId
-     * @param int|null $productId
+     * @param $id
+     * @param int|null $parentId
      * @return void
      */
-    public function getOne($downloadId, ?int $productId = null)
+    public function getOne($id, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Products\\Downloads', __METHOD__);
     }
 
     /**
      * @param array $params
-     * @param int|null $productId
+     * @param int|null $parentId
      * @return void
      */
-    public function getMany(array $params = [], ?int $productId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Products\\Downloads', __METHOD__);
     }
 
     /**
      * @param array $body
-     * @param int|null $productId
+     * @param int|null $parentId
      * @return void
      */
-    public function postOne(array $body, ?int $productId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Products\\Downloads', __METHOD__);
     }
 
     /**
-     * @param $downloadId
+     * @param $id
      * @param array $body
-     * @param int|null $productId
+     * @param int|null $parentId
      * @return void
      */
-    public function putOne($downloadId, array $body, ?int $productId = null)
+    public function putOne($id, array $body, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Products\\Downloads', __METHOD__);
     }
 
     /**
-     * @param $downloadId
-     * @param int|null $productId
+     * @param $id
+     * @param int|null $parentId
      * @return void
      */
-    public function deleteOne($downloadId, ?int $productId = null)
+    public function deleteOne($id, ?int $parentId = null)
     {
-        $productId = $productId ?? $this->productId;
-        if (!$productId) {
-            throw new \invalidArgumentException('productId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Products\\Downloads', __METHOD__);
     }

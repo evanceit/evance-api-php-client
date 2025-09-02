@@ -2,7 +2,9 @@
 
 namespace Evance\Auth;
 
+use DomainException;
 use Evance;
+use Exception;
 use GuzzleHttp\Psr7;
 use Firebase\JWT\JWT;
 
@@ -109,10 +111,10 @@ class OAuth2
         $token = json_decode($body, true);
         if (!$token) {
             var_dump($body);
-            throw new \Exception('Malformed response from server');
+            throw new Exception('Malformed response from server');
         }
         if (isset($token['error'])) {
-            throw new \Exception($token['error_description']);
+            throw new Exception($token['error_description']);
         }
         return $token;
     }
@@ -143,10 +145,10 @@ class OAuth2
         $token = json_decode($body, true);
         if (!$token) {
             var_dump($body);
-            throw new \Exception('Malformed response from server');
+            throw new Exception('Malformed response from server');
         }
         if (isset($token['error'])) {
-            throw new \Exception($token['error_description']);
+            throw new Exception($token['error_description']);
         }
         return $token;
     }
@@ -232,13 +234,13 @@ class OAuth2
         $algorithmKey = $this->getSigningAlgorithm();
         $key = $this->getSigningKey();
         if (empty($algorithmKey)) {
-            throw new \Exception('Missing algorithm in config');
+            throw new Exception('Missing algorithm in config');
         }
         if (empty($key)) {
-            throw new \Exception('Missing private_key in config');
+            throw new Exception('Missing private_key in config');
         }
         if (empty(static::$algorithms[$algorithmKey])) {
-            throw new \Exception('Algorithm not supported');
+            throw new Exception('Algorithm not supported');
         }
         list($function, $algorithm) = static::$algorithms[$algorithmKey];
         switch ($function) {
@@ -246,7 +248,7 @@ class OAuth2
                 return hash_hmac($algorithm, $message, $key, true);
             case 'openssl':
                 $signature = '';
-                $success = openssl_sign($msg, $signature, $key, $algorithm);
+                $success = openssl_sign($message, $signature, $key, $algorithm);
                 if (!$success) {
                     throw new DomainException("OpenSSL unable to sign data");
                 } else {
@@ -255,8 +257,14 @@ class OAuth2
         }
     }
 
-    // todo: this needs to go into JWT really
-    public function verify($message, $signature)
+    /**
+     * @param $message
+     * @param $signature
+     * @return bool
+     * @throws Exception
+     * @todo: this needs to go into JWT really
+     */
+    public function verify($message, $signature): bool
     {
         $signed = $this->sign($message);
         return (base64_encode($signed) == $signature);

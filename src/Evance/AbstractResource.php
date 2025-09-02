@@ -4,6 +4,7 @@ namespace Evance;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\ClientException;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -25,13 +26,13 @@ abstract class AbstractResource
     const V2 = "v2/";
 
     /** @var ApiClient */
-    private $client;
+    private ApiClient $client;
 
     /**
      * Current API version prefix used when building URLs ('' for v1, 'v2/' for v2)
      * @var string
      */
-    protected $version;
+    protected string $version;
 
     /**
      * Internal map of resource version support to control deprecation notices.
@@ -121,34 +122,31 @@ abstract class AbstractResource
         return $this->client;
     }
 
-    /**
-     * @param $properties
-     * @return mixed
-     */
+
     // New canonical method names
     public function getOne($id)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
     public function getMany(array $params = [])
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
     public function postOne(array $body)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
     public function putOne($id, array $body)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
     public function deleteOne($id)
     {
-        throw new \RuntimeException(__METHOD__ . " not implemented for this resource");
+        throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
     // Legacy methods kept for BC with deprecation notices
@@ -164,10 +162,10 @@ abstract class AbstractResource
     /**
      * @deprecated Use getMany($params) instead. Some resources may also support more specific list/search helpers.
      */
-    public function search($params)
+    public function search($query)
     {
         @trigger_error(__METHOD__ . ' is deprecated. Use getMany($params) instead.', E_USER_DEPRECATED);
-        return $this->getMany($params);
+        return $this->getMany(['q' => $query]);
     }
 
     /**
@@ -249,7 +247,7 @@ abstract class AbstractResource
     protected function notImplementedV2(string $resource, string $method): void
     {
         @trigger_error($resource . ' (v2) is not implemented in this PHP client yet. Method: ' . $method, E_USER_WARNING);
-        throw new \RuntimeException($resource . ' (v2) not implemented: ' . $method);
+        throw new RuntimeException($resource . ' (v2) not implemented: ' . $method);
     }
 
 }

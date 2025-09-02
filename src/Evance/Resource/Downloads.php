@@ -26,11 +26,11 @@ class Downloads extends AbstractResource
     }
 
     /**
-     * @param int $productId
      * @param array $params
+     * @param int|null $productId
      * @return array
      */
-    public function getMany($productId, array $params)
+    public function getMany(array $params = [], ?int $productId = null)
     {
         Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
         Assert::isArray($params, __METHOD__ . ' expects $params to be an array of key value pairs');

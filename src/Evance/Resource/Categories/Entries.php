@@ -2,94 +2,80 @@
 
 namespace Evance\Resource\Categories;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
+use invalidArgumentException;
 
-class Entries extends AbstractResource
+class Entries extends AbstractChildResource
 {
     /**
      * @var int|null
      */
-    public ?int $categoryId;
+    public ?int $parentId;
 
-    public function __construct(ApiClient $client, $categoryId = null)
+    public function __construct(ApiClient $client, $parentId = null)
     {
         parent::__construct($client);
-        $this->categoryId = $categoryId;
+        $this->parentId = $parentId;
     }
 
     /**
-     * @param $entryId
-     * @param $categoryId
+     * @param $id
+     * @param $parentId
      * @return void
      */
-    public function getOne($entryId, $categoryId = null)
+    public function getOne($id, $parentId = null)
     {
-        $categoryId = $categoryId ?? $this->categoryId;
-        if (!$categoryId) {
-            throw new \invalidArgumentException('categoryId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Categories\\Entries', __METHOD__);
     }
 
     /**
      * @param array $params
-     * @param $categoryId
+     * @param $parentId
      * @return void
      */
-    public function getMany(array $params = [], $categoryId = null)
+    public function getMany(array $params = [], $parentId = null)
     {
-        $categoryId = $categoryId ?? $this->categoryId;
-        if (!$categoryId) {
-            throw new \invalidArgumentException('categoryId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Categories\\Entries', __METHOD__);
     }
 
     /**
      * @param array $body
-     * @param $categoryId
+     * @param $parentId
      * @return void
      */
-    public function postOne(array $body, $categoryId = null)
+    public function postOne(array $body, $parentId = null)
     {
-        $categoryId = $categoryId ?? $this->categoryId;
-        if (!$categoryId) {
-            throw new \invalidArgumentException('categoryId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Categories\\Entries', __METHOD__);
     }
 
     /**
-     * @param $entryId
+     * @param $id
      * @param array $body
-     * @param $categoryId
+     * @param $parentId
      * @return void
      */
-    public function putOne($entryId, array $body, $categoryId = null)
+    public function putOne($id, array $body, $parentId = null)
     {
-        $categoryId = $categoryId ?? $this->categoryId;
-        if (!$categoryId) {
-            throw new \invalidArgumentException('categoryId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Categories\\Entries', __METHOD__);
     }
 
     /**
-     * @param $entryId
-     * @param $categoryId
+     * @param $id
+     * @param $parentId
      * @return void
      */
-    public function deleteOne($entryId, $categoryId = null)
+    public function deleteOne($id, $parentId = null)
     {
-        $categoryId = $categoryId ?? $this->categoryId;
-        if (!$categoryId) {
-            throw new \invalidArgumentException('categoryId is required');
-        }
+        $parentId = $this->requireParentId($parentId);
 
         $this->notImplementedV2('Categories\\Entries', __METHOD__);
     }

@@ -2,53 +2,64 @@
 
 namespace Evance\Resource;
 
-use Evance\AbstractResource;
+use Evance\AbstractChildResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
-class ProductMedia extends AbstractResource
+class ProductMedia extends AbstractChildResource
 {
-    public function __construct(ApiClient $client)
+    public function __construct(ApiClient $client, $parentId = null)
     {
         parent::__construct($client);
+        $this->parentId = $parentId;
     }
 
-    public function get($productId)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
-        Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
-        return $this->call('GET', "/products/{$productId}/media.json");
+        $parentId = $this->requireParentId($parentId);
+        Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
+        Assert::isArray($params, __METHOD__ . ' expects $params to be an array of key value pairs');
+        return $this->call('GET', "/products/{$parentId}/media.json", $params);
     }
 
-    public function add($productId, $media)
+    public function postOne(array $body, ?int $parentId = null)
     {
-        Assert::integerish($productId, __METHOD__ . ' expects an $producId as an integer');
-        Assert::isArray($media, __METHOD__ . ' expects $media to be supplied as an array');
-        Assert::keyExists($media, "media",  __METHOD__ . ' expects $media to contain key of "media"' .
+        $parentId = $this->requireParentId($parentId);
+        Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
+        Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
+        Assert::keyExists($body, "media",  __METHOD__ . ' expects $body to contain key of "media"' .
             ' with value of object or array');
-        return $this->call('POST', "/products/{$productId}/media.json", $media);
+        return $this->call('POST', "/products/{$parentId}/media.json", $body);
     }
 
-    public function getById($productId, $mediaId)
+    public function getById($id, ?int $parentId = null)
     {
-        Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
-        Assert::integerish($mediaId, __METHOD__ . ' expects an $mediaId as an integer');
-        return $this->call('GET', "/products/{$productId}/media/{$mediaId}.json");
+        return $this->getOne($id, $parentId);
     }
 
-    public function update($productId, $mediaId, $media)
+    public function getOne($id, ?int $parentId = null)
     {
-        Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
-        Assert::integerish($mediaId, __METHOD__ . ' expects an $mediaId as an integer');
-        Assert::isArray($media, __METHOD__ . ' expects $media to be supplied as an array');
-        Assert::keyExists($media, "media",  __METHOD__ . ' expects $media to contain key of "media"' .
+        $parentId = $this->requireParentId($parentId);
+        Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        return $this->call('GET', "/products/{$parentId}/media/{$id}.json");
+    }
+
+    public function putOne($id, array $body, ?int $parentId = null )
+    {
+        $parentId = $this->requireParentId($parentId);
+        Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
+        Assert::keyExists($body, "media",  __METHOD__ . ' expects $body to contain key of "media"' .
             ' with value of object or array');
-        return $this->call('PUT', "/products/{$productId}/media/{$mediaId}.json", $media);
+        return $this->call('PUT', "/products/{$parentId}/media/{$id}.json", $body);
     }
 
-    public function delete($productId, $mediaId)
+    public function deleteOne($id, ?int $parentId = null)
     {
-        Assert::integerish($productId, __METHOD__ . ' expects an $productId as an integer');
-        Assert::integerish($mediaId, __METHOD__ . ' expects an $mediaId as an integer');
-        return $this->call('DELETE', "/products/{$productId}/media/{$mediaId}.json");
+        Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        return $this->call('DELETE', "/products/{$parentId}/media/{$id}.json");
     }
 }
