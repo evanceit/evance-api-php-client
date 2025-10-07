@@ -16,7 +16,7 @@ class Locations extends AbstractResource
      * @param $id
      * @return array
      */
-    public function get($id)
+    public function getOne($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/".$this->version."locations/{$id}.json");
@@ -26,9 +26,29 @@ class Locations extends AbstractResource
      * @param array $params
      * @return mixed
      */
-    public function search($params = [])
+    public function getMany(array $params = [])
     {
         Assert::isArray($params, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
         return $this->call('GET', "/".$this->version."locations.json", [], $params);
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @deprecated use getMany()
+     */
+    public function get($id)
+    {
+        return $this->getOne($id);
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     * @deprecated use getMany()
+     */
+    public function search($params = [])
+    {
+        return $this->getMany($params);
     }
 }

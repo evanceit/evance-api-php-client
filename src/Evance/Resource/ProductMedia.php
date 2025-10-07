@@ -6,6 +6,9 @@ use Evance\AbstractChildResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+/**
+ * @deprecated will be replaced by Products/Media
+ */
 class ProductMedia extends AbstractChildResource
 {
     public function __construct(ApiClient $client, $parentId = null)
@@ -32,6 +35,12 @@ class ProductMedia extends AbstractChildResource
         return $this->call('POST', "/products/{$parentId}/media.json", $body);
     }
 
+    /**
+     * @param $id
+     * @param int|null $parentId
+     * @return mixed
+     * @deprecated use getOne()
+     */
     public function getById($id, ?int $parentId = null)
     {
         return $this->getOne($id, $parentId);

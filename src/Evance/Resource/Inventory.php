@@ -16,7 +16,7 @@ class Inventory extends AbstractResource
      * @param $id
      * @return array
      */
-    public function get($id)
+    public function getOne($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/".$this->version."inventory/{$id}.json");
@@ -26,45 +26,96 @@ class Inventory extends AbstractResource
      * @param array $params
      * @return mixed
      */
-    public function search($params = [])
+    public function getMany(array $params = [])
     {
         Assert::isArray($params, __METHOD__ . ' expects $query to be supplied as an array of key value pairs');
         return $this->call('GET', "/".$this->version."inventory.json", [], $params);
     }
 
     /**
-     * @param $inventory
+     * @param $body
      * @return mixed
      */
-    public function add($inventory)
+    public function postOne($body)
     {
-        Assert::isArray($inventory, __METHOD__ . ' expects $inventory to be supplied as an array');
-        Assert::keyExists($inventory, "data",  __METHOD__ . ' expects $inventory to contain key of "data"' .
+        Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
+        Assert::keyExists($body, "data",  __METHOD__ . ' expects $body to contain key of "data"' .
             ' with value of object or array:');
-        return $this->call('POST', "/".$this->version."inventory.json", $inventory);
+        return $this->call('POST', "/".$this->version."inventory.json", $body);
     }
 
     /**
      * @param $id
-     * @param $inventory
+     * @param $body
      * @return mixed
      */
-    public function update($id, $inventory)
+    public function putOne($id, $body)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
-        Assert::isArray($inventory, __METHOD__ . ' expects $inventory to be supplied as an array');
-        Assert::keyExists($inventory, "data",  __METHOD__ . ' expects $inventory to contain key of "data"' .
+        Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
+        Assert::keyExists($body, "data",  __METHOD__ . ' expects $body to contain key of "data"' .
             ' with value of json object');
-        return $this->call('PUT', "/".$this->version."inventory/{$id}.json", $inventory);
+        return $this->call('PUT', "/".$this->version."inventory/{$id}.json", $body);
     }
 
     /**
      * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function deleteOne($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/".$this->version."inventory/{$id}.json");
+    }
+
+    /**
+     * @param $inventory
+     * @return mixed
+     * @deprecated use postOne()
+     */
+    public function add($inventory)
+    {
+        return $this->postOne($inventory);
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @deprecated use getOne()
+     */
+    public function get($id)
+    {
+        return $this->getOne($id);
+    }
+
+    /**
+     * @param $id
+     * @param $inventory
+     * @return mixed
+     * @deprecated use putOne()
+     */
+    public function update($id, $inventory)
+    {
+        return $this->putOne($id, $inventory);
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     * @deprecated use getMany()
+     */
+    public function search($params = [])
+    {
+        return $this->getMany($params);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @deprecated use deleteOne()
+     */
+    public function delete($id)
+    {
+        return $this->deleteOne($id);
     }
 }

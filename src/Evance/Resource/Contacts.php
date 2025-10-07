@@ -15,13 +15,30 @@ class Contacts extends AbstractResource
 
     /**
      * Create a new Contact for the App.
-     * @param $properties
+     * @param $body
      * @return mixed
      */
-    public function add($properties)
+    public function postOne($body)
     {
-        Assert::isArray($properties, __METHOD__ . ' expects $properties to be supplied as an array');
-        return $this->call('POST', "/contacts.json", $properties);
+        Assert::isArray($body, __METHOD__ . ' expects $properties to be supplied as an array');
+        $key = ($this->version !== AbstractResource::V2) ? "contact" : "data";
+        $this->assertBody($body, $key);
+        return $this->call('POST', "/contacts.json", $body);
+    }
+
+    /**
+     * Update a Contact for the App with the new properties provided.
+     * @param $id
+     * @param $body
+     * @return mixed
+     */
+    public function putOne($id, $body)
+    {
+        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
+        Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
+        $key = ($this->version !== AbstractResource::V2) ? "contact" : "data";
+        $this->assertBody($body, $key);
+        return $this->call('PUT', "/contacts/{$id}.json", $body);
     }
 
     /**
@@ -29,7 +46,7 @@ class Contacts extends AbstractResource
      * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function deleteOne($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/contacts/{$id}.json");
@@ -40,7 +57,7 @@ class Contacts extends AbstractResource
      * @param $id
      * @return mixed
      */
-    public function get($id)
+    public function getOne($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/contacts/{$id}.json");
@@ -48,18 +65,19 @@ class Contacts extends AbstractResource
 
     /**
      * Search for Contact(s) based on certain parameters within a query string.
-     * @param $query
+     * @param array $params
      * @return mixed
      */
-    public function search($query)
+    public function getMany(array $params = [])
     {
-        return $this->call('GET', "/contacts/search.json?q={$query}");
+        return $this->call('GET', "/contacts/search.json", [], $params);
     }
 
     /**
      * Search for a single user by reference
      * @param $reference
      * @return mixed
+     * @deprecated use getMany()
      */
     public function searchWithReference($reference)
     {
@@ -69,6 +87,7 @@ class Contacts extends AbstractResource
     /**
      * @param $email
      * @return mixed
+     * @deprecated Use getMany()
      */
     public function searchWithEmail($email)
     {
@@ -78,6 +97,7 @@ class Contacts extends AbstractResource
     /**
      * @param $leaveDate
      * @return mixed
+     * @deprecated use getMany()
      */
     public function searchWithLeaveDate($leaveDate)
     {
@@ -85,15 +105,46 @@ class Contacts extends AbstractResource
     }
 
     /**
-     * Update a Contact for the App with the new properties provided.
+     * @param $properties
+     * @return mixed
+     * @deprecated use postOne()
+     */
+    public function add($properties)
+    {
+        return $this->postOne($properties);
+    }
+
+    /**
      * @param $id
      * @param $properties
      * @return mixed
+     * @deprecated use putOne()
      */
     public function update($id, $properties)
     {
-        Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
-        Assert::isArray($properties, __METHOD__ . ' expects $properties to be supplied as an array');
-        return $this->call('PUT', "/contacts/{$id}.json", $properties);
+        return $this->putOne($id, $properties);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @deprecated use deleteOne()
+     */
+    public function delete($id)
+    {
+        return $this->deleteOne($id);
+    }
+
+    /**
+     * @param mixed $query
+     * @return mixed|string[]
+     * @deprecated use getMany()
+     */
+    public function search($query)
+    {
+        if (is_string($query)) {
+            parse_str($query, $query);
+        }
+        return $this->getMany($query);
     }
 }

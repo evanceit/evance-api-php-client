@@ -6,6 +6,10 @@ use Evance\AbstractResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+/**
+ * Will be moved to Products/Downloads
+ * @deprecated
+ */
 class Downloads extends AbstractResource
 {
     public function __construct(ApiClient $client)

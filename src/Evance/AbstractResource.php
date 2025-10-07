@@ -96,7 +96,7 @@ abstract class AbstractResource
         Assert::string($url, __METHOD__ . ' expects the $url to be provided as a string');
 
         // Emit deprecation notices for legacy v1 usage when applicable
-        $this->maybeWarnForDeprecatedVersionUsage();
+        $this->warnForDeprecatedVersionUsage();
 
         $uri = $this->client->getResourceUri($url);
         $request = new Request(
@@ -105,11 +105,13 @@ abstract class AbstractResource
             ['content-type' => 'application/json'],
             $body ? json_encode($body) : ''
         );
+
         // We had to catch and re throw the client exception to get the full error message
         // otherwise it was being truncated and the Evance save error message was lost.
         try {
             return $this->client->execute($request, $params);
         } catch (ClientException $e) {
+
             throw new ClientException($e->getResponse()->getBody()->getContents(), $request);
         }
     }
@@ -215,7 +217,7 @@ abstract class AbstractResource
     /**
      * Determine if we should emit a deprecation warning based on the resource and version.
      */
-    protected function maybeWarnForDeprecatedVersionUsage(): void
+    protected function warnForDeprecatedVersionUsage(): void
     {
         // V2 or unspecified resource mapping – do nothing
         if ($this->version === self::V2) {
@@ -248,6 +250,16 @@ abstract class AbstractResource
     {
         @trigger_error($resource . ' (v2) is not implemented in this PHP client yet. Method: ' . $method, E_USER_WARNING);
         throw new RuntimeException($resource . ' (v2) not implemented: ' . $method);
+    }
+
+    /**
+     * @param $body
+     * @param string $key
+     * @return void
+     */
+    protected function assertBody($body, string $key = "data")
+    {
+        Assert::keyExists($body, $key, __METHOD__ . ' expects $body to contain key of "'.$key.'"' . ' with value of object or array:');
     }
 
 }

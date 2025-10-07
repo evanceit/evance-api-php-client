@@ -6,6 +6,9 @@ use Evance\AbstractChildResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+/**
+ * @deprecated will be replaced by Products/Translations
+ */
 class ProductTranslations extends AbstractChildResource
 {
     public function __construct(ApiClient $client)

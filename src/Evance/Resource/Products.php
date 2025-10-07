@@ -40,8 +40,8 @@ class Products extends AbstractResource
     public function add($product)
     {
         Assert::isArray($product, __METHOD__ . ' expects $product to be supplied as an array');
-        Assert::keyExists($product, "product",  __METHOD__ . ' expects $product to contain key of "product"' .
-            ' with value of object or array:');
+        $key = ($this->version !== AbstractResource::V2) ? "product" : "data";
+        $this->assertBody($product, $key);
         return $this->call('POST', "/{$this->version}products.json", $product);
     }
 
@@ -54,8 +54,8 @@ class Products extends AbstractResource
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         Assert::isArray($product, __METHOD__ . ' expects $product to be supplied as an array');
-        Assert::keyExists($product, "product",  __METHOD__ . ' expects $product to contain key of "product"' .
-            ' with value of json object');
+        $key = ($this->version !== AbstractResource::V2) ? "product" : "data";
+        $this->assertBody($product, $key);
         return $this->call('PUT', "/{$this->version}products/{$id}.json", $product);
     }
 
@@ -68,4 +68,5 @@ class Products extends AbstractResource
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/{$this->version}products/{$id}.json");
     }
+
 }
