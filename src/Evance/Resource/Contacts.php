@@ -143,7 +143,8 @@ class Contacts extends AbstractResource
     public function search($query)
     {
         if (is_string($query)) {
-            parse_str($query, $query);
+            parse_str($query, $result);
+            return $this->getMany($result);
         }
         return $this->getMany($query);
     }

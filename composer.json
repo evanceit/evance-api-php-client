@@ -6,7 +6,7 @@
   "homepage": "https://github.com/evanceit/evance-api-php-client",
   "license": "MIT",
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.2",
     "guzzlehttp/psr7": "^1.2",
