@@ -112,7 +112,7 @@ abstract class AbstractResource
             return $this->client->execute($request, $params);
         } catch (ClientException $e) {
 
-            throw new ClientException($e->getResponse()->getBody()->getContents(), $request);
+            throw new ClientException($e->getResponse()->getBody()->getContents(), $request, $e->getResponse());
         }
     }
 
