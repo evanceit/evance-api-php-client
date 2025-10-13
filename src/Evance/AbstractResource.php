@@ -126,7 +126,7 @@ abstract class AbstractResource
 
 
     // New canonical method names
-    public function getOne($id)
+    public function getOne(int $id)
     {
         throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
@@ -141,12 +141,12 @@ abstract class AbstractResource
         throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
-    public function putOne($id, array $body)
+    public function putOne(int $id, array $body)
     {
         throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }
 
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         throw new RuntimeException(__METHOD__ . " not implemented for this resource");
     }

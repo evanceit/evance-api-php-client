@@ -23,7 +23,7 @@ class ProductSpecification extends AbstractChildResource
         return $this->call('GET', "/products/{$parentId}/specifications.json", [], $params);
     }
 
-    public function postOne($body, ?int $parentId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $productId as an integer');
@@ -33,7 +33,7 @@ class ProductSpecification extends AbstractChildResource
         return $this->call('POST', "/products/{$parentId}/specifications.json", $body);
     }
 
-    public function deleteOne($id, ?int $parentId = null)
+    public function deleteOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $productId as an integer');

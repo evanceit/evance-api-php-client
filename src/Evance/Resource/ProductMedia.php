@@ -46,7 +46,7 @@ class ProductMedia extends AbstractChildResource
         return $this->getOne($id, $parentId);
     }
 
-    public function getOne($id, ?int $parentId = null)
+    public function getOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
@@ -54,7 +54,7 @@ class ProductMedia extends AbstractChildResource
         return $this->call('GET', "/products/{$parentId}/media/{$id}.json");
     }
 
-    public function putOne($id, array $body, ?int $parentId = null )
+    public function putOne(int $id, array $body, ?int $parentId = null )
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
@@ -65,7 +65,7 @@ class ProductMedia extends AbstractChildResource
         return $this->call('PUT', "/products/{$parentId}/media/{$id}.json", $body);
     }
 
-    public function deleteOne($id, ?int $parentId = null)
+    public function deleteOne(int $id, ?int $parentId = null)
     {
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');

@@ -16,7 +16,7 @@ class ProductTranslations extends AbstractChildResource
         parent::__construct($client);
     }
 
-    public function getMany(array $params = [], $parentId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects a $productId as an integer');
@@ -30,7 +30,7 @@ class ProductTranslations extends AbstractChildResource
         return $this->call('GET', "/products/{$productId}/locales.json");
     }
 
-    public function postOne(array $body = [], $parentId = null)
+    public function postOne(array $body = [], ?int $parentId = null)
     {
         $productId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
@@ -44,7 +44,7 @@ class ProductTranslations extends AbstractChildResource
     {
         return $this->getOne($translationsId, $productId);
     }
-    public function getOne($id, ?int $parentId = null)
+    public function getOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parenttId as an integer');
@@ -52,7 +52,7 @@ class ProductTranslations extends AbstractChildResource
         return $this->call('GET', "/products/{$parentId}/translations/{$id}.json");
     }
 
-    public function putOne($id, $body, ?int $parentId = null)
+    public function putOne(int $id, array $body, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');
@@ -63,7 +63,7 @@ class ProductTranslations extends AbstractChildResource
         return $this->call('PUT', "/products/{$parentId}/translations/{$id}.json", $body);
     }
 
-    public function deleteOne($id, ?int $parentId = null)
+    public function deleteOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         Assert::integerish($parentId, __METHOD__ . ' expects an $parentId as an integer');

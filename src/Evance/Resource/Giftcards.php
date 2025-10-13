@@ -12,7 +12,7 @@ class Giftcards extends AbstractResource
         parent::__construct($client);
     }
 
-    public function getOne($id)
+    public function getOne(int $id)
     {
         $this->notImplementedV2('Giftcards', __METHOD__);
     }
@@ -27,12 +27,12 @@ class Giftcards extends AbstractResource
         $this->notImplementedV2('Giftcards', __METHOD__);
     }
 
-    public function putOne($id, array $body)
+    public function putOne(int $id, array $body)
     {
         $this->notImplementedV2('Giftcards', __METHOD__);
     }
 
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         $this->notImplementedV2('Giftcards', __METHOD__);
     }

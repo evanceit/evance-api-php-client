@@ -12,6 +12,9 @@ class Welcome extends AbstractResource
         parent::__construct($client);
     }
 
+    /**
+     * @return mixed
+     */
     public function message()
     {
         $json = $this->call('GET', '/index.json');

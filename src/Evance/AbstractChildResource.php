@@ -50,29 +50,29 @@ abstract class AbstractChildResource extends AbstractResource
     // optional $parentId parameter to allow child resources to override them
     // without violating signature compatibility rules.
 
-    public function getOne($id, $parentId = null)
+    public function getOne(int $id, ?int $parentId = null)
     {
         // Default behaviour just delegates to parent; concrete child resources
         // will typically override this to build the appropriate child URL.
         return parent::getOne($id);
     }
 
-    public function getMany(array $params = [], $parentId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
         return parent::getMany($params);
     }
 
-    public function postOne(array $body, $parentId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
         return parent::postOne($body);
     }
 
-    public function putOne($id, array $body, $parentId = null)
+    public function putOne(int $id, array $body, ?int $parentId = null)
     {
         return parent::putOne($id, $body);
     }
 
-    public function deleteOne($id, $parentId = null)
+    public function deleteOne(int $id, ?int$parentId = null)
     {
         return parent::deleteOne($id);
     }

@@ -18,7 +18,7 @@ class Contacts extends AbstractResource
      * @param $body
      * @return mixed
      */
-    public function postOne($body)
+    public function postOne(array $body)
     {
         Assert::isArray($body, __METHOD__ . ' expects $properties to be supplied as an array');
         $key = ($this->version !== AbstractResource::V2) ? "contact" : "data";
@@ -32,7 +32,7 @@ class Contacts extends AbstractResource
      * @param $body
      * @return mixed
      */
-    public function putOne($id, $body)
+    public function putOne(int $id, array $body)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
@@ -46,7 +46,7 @@ class Contacts extends AbstractResource
      * @param $id
      * @return mixed
      */
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/contacts/{$id}.json");
@@ -57,7 +57,7 @@ class Contacts extends AbstractResource
      * @param $id
      * @return mixed
      */
-    public function getOne($id)
+    public function getOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/contacts/{$id}.json");

@@ -16,7 +16,7 @@ class Inventory extends AbstractResource
      * @param $id
      * @return array
      */
-    public function getOne($id)
+    public function getOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/".$this->version."inventory/{$id}.json");
@@ -36,7 +36,7 @@ class Inventory extends AbstractResource
      * @param $body
      * @return mixed
      */
-    public function postOne($body)
+    public function postOne(array $body)
     {
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
         Assert::keyExists($body, "data",  __METHOD__ . ' expects $body to contain key of "data"' .
@@ -49,7 +49,7 @@ class Inventory extends AbstractResource
      * @param $body
      * @return mixed
      */
-    public function putOne($id, $body)
+    public function putOne(int $id, array $body)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
@@ -62,7 +62,7 @@ class Inventory extends AbstractResource
      * @param $id
      * @return mixed
      */
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/".$this->version."inventory/{$id}.json");

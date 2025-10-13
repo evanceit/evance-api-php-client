@@ -18,7 +18,7 @@ class Categories extends AbstractResource
      * @param int|string $id
      * @return array
      */
-    public function getOne($id)
+    public function getOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('GET', "/{$this->version}categories/{$id}.json");
@@ -53,7 +53,7 @@ class Categories extends AbstractResource
      * @param array $body
      * @return mixed
      */
-    public function putOne($id, array $body)
+    public function putOne(int $id, array $body)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
@@ -66,7 +66,7 @@ class Categories extends AbstractResource
      * @param int|string $id
      * @return mixed
      */
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         return $this->call('DELETE', "/{$this->version}categories/{$id}.json");

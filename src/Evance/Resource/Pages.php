@@ -14,10 +14,10 @@ class Pages extends AbstractResource
     }
 
     /**
-     * @param int|string $id
+     * @param int $id
      * @return mixed
      */
-    public function getOne($id)
+    public function getOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         // v2 uses /documents, legacy uses /pages
@@ -58,11 +58,11 @@ class Pages extends AbstractResource
 
     /**
      * Update a page/document
-     * @param int|string $id
+     * @param int $id
      * @param array $body
      * @return mixed
      */
-    public function putOne($id, array $body)
+    public function putOne(int $id, array $body)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
@@ -75,10 +75,10 @@ class Pages extends AbstractResource
 
     /**
      * Delete a page/document
-     * @param int|string $id
+     * @param int $id
      * @return mixed
      */
-    public function deleteOne($id)
+    public function deleteOne(int $id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         if ($this->version === self::V2) {
