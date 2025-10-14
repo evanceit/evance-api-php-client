@@ -45,6 +45,7 @@ abstract class AbstractResource
         'Contacts' => ['v1' => true, 'v2' => true],
         'Pages' => ['v1' => true, 'v2' => true],
         'Downloads' => ['v1' => false, 'v2' => true],
+        'Events' => ['v1' => false, 'v2', true],
         'Inventory' => ['v1' => false, 'v2' => true],
         'Locations' => ['v1' => false, 'v2' => true],
         'ProductMedia' => ['v1' => true, 'v2' => false],
