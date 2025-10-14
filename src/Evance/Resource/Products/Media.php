@@ -20,11 +20,11 @@ class Media extends AbstractChildResource
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param int|null $parentId
      * @return void
      */
-    public function getOne($id, ?int $parentId = null)
+    public function getOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->parentId;
         if (!$parentId) {
@@ -59,12 +59,12 @@ class Media extends AbstractChildResource
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param array $body
      * @param int|null $parentId
      * @return void
      */
-    public function putOne($id, array $body, ?int $parentId = null)
+    public function putOne(int $id, array $body, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -72,11 +72,11 @@ class Media extends AbstractChildResource
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param int|null $parentId
      * @return void
      */
-    public function deleteOne($id, ?int $parentId = null)
+    public function deleteOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 

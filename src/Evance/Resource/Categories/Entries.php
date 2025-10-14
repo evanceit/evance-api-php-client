@@ -13,18 +13,18 @@ class Entries extends AbstractChildResource
      */
     public ?int $parentId;
 
-    public function __construct(ApiClient $client, $parentId = null)
+    public function __construct(ApiClient $client, ?int $parentId = null)
     {
         parent::__construct($client);
         $this->parentId = $parentId;
     }
 
     /**
-     * @param $id
-     * @param $parentId
+     * @param int $id
+     * @param int|null $parentId
      * @return void
      */
-    public function getOne($id, $parentId = null)
+    public function getOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -33,10 +33,10 @@ class Entries extends AbstractChildResource
 
     /**
      * @param array $params
-     * @param $parentId
+     * @param int|null $parentId
      * @return void
      */
-    public function getMany(array $params = [], $parentId = null)
+    public function getMany(array $params = [], ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -45,10 +45,10 @@ class Entries extends AbstractChildResource
 
     /**
      * @param array $body
-     * @param $parentId
+     * @param int|null $parentId
      * @return void
      */
-    public function postOne(array $body, $parentId = null)
+    public function postOne(array $body, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -56,12 +56,12 @@ class Entries extends AbstractChildResource
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param array $body
-     * @param $parentId
+     * @param int|null $parentId
      * @return void
      */
-    public function putOne($id, array $body, $parentId = null)
+    public function putOne(int $id, array $body, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -69,11 +69,11 @@ class Entries extends AbstractChildResource
     }
 
     /**
-     * @param $id
-     * @param $parentId
+     * @param int $id
+     * @param int|null $parentId
      * @return void
      */
-    public function deleteOne($id, $parentId = null)
+    public function deleteOne(int $id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
 

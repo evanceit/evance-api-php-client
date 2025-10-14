@@ -9,6 +9,7 @@ use Webmozart\Assert\Assert;
  * The Shipping Service resource class is a direct representation of the API endpoint.
  * If you do not wish to use our
  * @package Evance\Service\Shipping\Resource
+ * @deprecated
  */
 class Services extends AbstractResource
 {

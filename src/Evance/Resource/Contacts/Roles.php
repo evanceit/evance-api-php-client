@@ -13,7 +13,7 @@ class Roles extends AbstractChildResource
      */
     public ?int $parentId;
 
-    public function __construct(ApiClient $client, $parentId = null)
+    public function __construct(ApiClient $client, ?int $parentId = null)
     {
         parent::__construct($client);
         $this->parentId = $parentId;
@@ -24,7 +24,7 @@ class Roles extends AbstractChildResource
      * @param null $parentId
      * @return void
      */
-    public function getOne($id, $parentId = null)
+    public function getOne($id, ?int $parentId = null)
     {
         $parentId = $this->requireParentId($parentId);
         $this->notImplementedV2('Contacts\\Roles', __METHOD__);
@@ -35,7 +35,7 @@ class Roles extends AbstractChildResource
      * @param $parentId
      * @return void
      */
-    public function getMany(array $params = [], $parentId= null)
+    public function getMany(array $params = [], ?int $parentId= null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -47,7 +47,7 @@ class Roles extends AbstractChildResource
      * @param $parentId
      * @return void
      */
-    public function postOne(array $body, $parentId= null)
+    public function postOne(array $body, ?int $parentId= null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -60,7 +60,7 @@ class Roles extends AbstractChildResource
      * @param $parentId
      * @return void
      */
-    public function putOne($id, array $body, $parentId= null)
+    public function putOne(int $id, array $body, ?int $parentId= null)
     {
         $parentId = $this->requireParentId($parentId);
 
@@ -72,7 +72,7 @@ class Roles extends AbstractChildResource
      * @param $parentId
      * @return void
      */
-    public function deleteOne($id, $parentId= null)
+    public function deleteOne(int $id, ?int $parentId= null)
     {
         $parentId = $this->requireParentId($parentId);
 

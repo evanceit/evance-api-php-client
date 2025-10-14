@@ -6,6 +6,9 @@ use Evance\AbstractResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+/**
+ * @deprecated
+ */
 class Submissions extends AbstractResource
 {
 
@@ -14,6 +17,11 @@ class Submissions extends AbstractResource
         parent::__construct($client);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @deprecated
+     */
     public function get($id)
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');

@@ -6,6 +6,9 @@ use Evance\AbstractResource;
 use Evance\ApiClient;
 use Webmozart\Assert\Assert;
 
+/**
+ * @deprecated
+ */
 class Builder extends AbstractResource
 {
 
@@ -14,6 +17,11 @@ class Builder extends AbstractResource
         parent::__construct($client);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @deprecated
+     */
     public function get($id = null)
     {
         if($id) {

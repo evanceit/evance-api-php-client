@@ -22,7 +22,7 @@ class Pages extends AbstractResource
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         // v2 uses /documents, legacy uses /pages
         if ($this->version === self::V2) {
-            return $this->call('GET', "/{$this->version}documents/{$id}.json");
+            return $this->call('GET', "/{$this->version}pages/{$id}.json");
         }
         return $this->call('GET', "/pages/{$id}.json");
     }
@@ -36,7 +36,7 @@ class Pages extends AbstractResource
     {
         Assert::isArray($params, __METHOD__ . ' expects $params to be supplied as an array of key value pairs');
         if ($this->version === self::V2) {
-            return $this->call('GET', "/{$this->version}documents.json", [], $params);
+            return $this->call('GET', "/{$this->version}pages.json", [], $params);
         }
         return $this->call('GET', "/pages.json", [], $params);
     }
@@ -51,7 +51,7 @@ class Pages extends AbstractResource
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
         Assert::keyExists($body, "data", __METHOD__ . ' expects $body to contain key of "data" with value of object or array');
         if ($this->version === self::V2) {
-            return $this->call('POST', "/{$this->version}documents.json", $body);
+            return $this->call('POST', "/{$this->version}pages.json", $body);
         }
         return $this->call('POST', "/pages.json", $body);
     }
@@ -68,7 +68,7 @@ class Pages extends AbstractResource
         Assert::isArray($body, __METHOD__ . ' expects $body to be supplied as an array');
         Assert::keyExists($body, "data", __METHOD__ . ' expects $body to contain key of "data" with value of json object');
         if ($this->version === self::V2) {
-            return $this->call('PUT', "/{$this->version}documents/{$id}.json", $body);
+            return $this->call('PUT', "/{$this->version}pages/{$id}.json", $body);
         }
         return $this->call('PUT', "/pages/{$id}.json", $body);
     }
@@ -82,7 +82,7 @@ class Pages extends AbstractResource
     {
         Assert::integerish($id, __METHOD__ . ' expects an $id as an integer');
         if ($this->version === self::V2) {
-            return $this->call('DELETE', "/{$this->version}documents/{$id}.json");
+            return $this->call('DELETE', "/{$this->version}pages/{$id}.json");
         }
         return $this->call('DELETE', "/pages/{$id}.json");
     }
